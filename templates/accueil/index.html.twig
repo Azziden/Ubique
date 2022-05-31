@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil Ubique
+{% endblock %}
+{% block body %}
+	<div class="container accueil-bg m-auto">
+
+		{% if app.user %}
+			<div class="mb-3 connected">
+				Bonjour
+				{{ app.user.name }},
+			</div>
+			<div class="accueil-index">
+				<a href="/logout">
+					<button>Déconnexion</button>
+				</a>
+
+				<a href="/collection">
+					<button>Magazine</button>
+				</a>
+
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}

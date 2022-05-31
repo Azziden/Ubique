@@ -17,7 +17,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/', name: 'app_login')]
+    #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
