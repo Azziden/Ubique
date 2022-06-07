@@ -6,10 +6,7 @@ use App\Repository\MagazineRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MagazineRepository::class)]
-/** 
- * @ORM\Table(name="magazine", indexes={@ORM\Index(columns={"code_affaire","code_affaire_en_clair"}, flags={"fulltext"})})
-*/
- class Magazine
+class Magazine
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,10 +19,10 @@ use Doctrine\ORM\Mapping as ORM;
     #[ORM\Column(type: 'string', length: 255)]
     private $code_affaire_en_clair;
 
-    #[ORM\Column(type: 'date', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $date_de_bouclage;
 
-    #[ORM\Column(type: 'date', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $date_de_parution;
 
     #[ORM\Column(type: 'string', length: 127, nullable: true)]
@@ -60,24 +57,24 @@ use Doctrine\ORM\Mapping as ORM;
         return $this;
     }
 
-    public function getDateDeBouclage(): ?\DateTimeInterface
+    public function getDateDeBouclage(): ?string
     {
         return $this->date_de_bouclage;
     }
 
-    public function setDateDeBouclage(?\DateTimeInterface $date_de_bouclage): self
+    public function setDateDeBouclage(?string $date_de_bouclage): self
     {
         $this->date_de_bouclage = $date_de_bouclage;
 
         return $this;
     }
 
-    public function getDateDeParution(): ?\DateTimeInterface
+    public function getDateDeParution(): ?string
     {
         return $this->date_de_parution;
     }
 
-    public function setDateDeParution(?\DateTimeInterface $date_de_parution): self
+    public function setDateDeParution(?string $date_de_parution): self
     {
         $this->date_de_parution = $date_de_parution;
 
