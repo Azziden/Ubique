@@ -6,6 +6,10 @@ use App\Repository\MagazineRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MagazineRepository::class)]
+/** 
+ *@ORM\Table(name="magazine",indexes={@ORM\Index(columns={"code_affaire", "code_affaire_en_clair"}, flags={"fulltext"})})
+*/
+
 class Magazine
 {
     #[ORM\Id]
