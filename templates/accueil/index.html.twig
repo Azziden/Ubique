@@ -10,16 +10,17 @@
 				Bonjour
 				{{ app.user.name }},
 			</div>
-			<div class="accueil-index">
-				<a href="/logout">
-					<button>Déconnexion</button>
-				</a>
+			{{ form(form) }}
+				<div class="accueil-index">
+					<a href="/logout">
+						<button>Déconnexion</button>
+					</a>
 
-				<a href="/collection">
-					<button>Magazine</button>
-				</a>
+					<a href="/collection">
+						<button>Magazine</button>
+					</a>
 
-			</div>
-		{% endif %}
-	</div>
-{% endblock %}
+				</div>
+			{% endif %}
+		</div>
+	{% endblock %}

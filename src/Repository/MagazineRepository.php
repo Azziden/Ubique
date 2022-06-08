@@ -21,6 +21,25 @@ class MagazineRepository extends ServiceEntityRepository
         parent::__construct($registry, Magazine::class);
     }
 
+    /**
+     * Recherche les magazines en fonction du formulaire
+     * @return void
+     */
+    public function search($mots){
+        $query = $this->createQueryBuilder('m');
+        if($mots != null){
+            $query->andWhere('MATCH_AGAINST(m.code_affaire, m.code_affaire_en_clair) AGAINST (:mots boolean)>0')
+                ->setParameter('mots', $mots);
+                
+
+        }
+        
+        return $query->getQuery()->getResult();
+
+
+    }
+    
+
     public function add(Magazine $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -38,6 +57,7 @@ class MagazineRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    
 
 //    /**
 //     * @return Magazine[] Returns an array of Magazine objects
