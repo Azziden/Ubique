@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Magazine;
 use App\Form\SearchMagazineType;
 use App\Controller\AccueilController;
 use App\Repository\MagazineRepository;
+
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AccueilController extends AbstractController
 {
     #[Route('/', name: 'app_accueil')]
-    public function index(MagazineRepository $magazineRepo, Request $request)
+    public function index(MagazineRepository $magazineRepo, Request $request, ManagerRegistry $doctrine)
     {
         $magazine = $magazineRepo->findBy([]);
         $form = $this->createForm(SearchMagazineType::class);
@@ -25,11 +28,17 @@ class AccueilController extends AbstractController
             $magazine = $magazineRepo->search($search->get('mots')
             ->getData());
         }
-
+        $magazine = $doctrine->getRepository(Magazine::class)->findAll();
+        
+       
 
         return $this->render('accueil/index.html.twig', [
             'magazine' => $magazine,
-            'form' =>$form->createView()
+            'form' =>$form->createView(),
+            
         ]);
     }
+
+   
+    
 }

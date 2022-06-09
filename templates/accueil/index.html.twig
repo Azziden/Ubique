@@ -8,19 +8,55 @@
 		{% if app.user %}
 			<div class="mb-3 connected">
 				Bonjour
-				{{ app.user.name }},
+				{{ app.user.name }}
 			</div>
+
 			{{ form(form) }}
-				<div class="accueil-index">
-					<a href="/logout">
-						<button>Déconnexion</button>
-					</a>
+			</div>
 
-					<a href="/collection">
-						<button>Magazine</button>
-					</a>
+			<div class="container">
+				<h1 class='text-center'>Recherche le magazine</h1>
+				<table class="table table-dark table-striped">
 
-				</div>
+
+					<thead>
+						<tr>
+							<th scope="col">id</th>
+							<th scope="col">Code Affaire</th>
+							<th scope="col">Code Affaire en clair</th>
+							<th scope="col">Date de bouclage</th>
+							<th scope="col">Date de parution</th>
+							<th scope="col">Titre en clair</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for aMagazine in magazine %}
+							<tr>
+								<td>
+									{{ aMagazine.id }}
+								</td>
+								<td>
+									{{ aMagazine.codeAffaire }}
+								</td>
+								<td>
+									{{ aMagazine.codeAffaireEnClair }}
+								</td>
+								<td>
+									{{ aMagazine.dateDeBouclage }}
+								</td>
+								<td>
+									{{ aMagazine.dateDeParution }}
+								</td>
+								<td>
+									{{ aMagazine.titreEnClair }}
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+
 			{% endif %}
 		</div>
 	{% endblock %}
