@@ -6,7 +6,6 @@ use App\Entity\Magazine;
 use App\Form\SearchMagazineType;
 use App\Controller\AccueilController;
 use App\Repository\MagazineRepository;
-
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

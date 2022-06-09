@@ -17,7 +17,7 @@ class SearchMagazineType extends AbstractType
             'label' => false,
             'attr' => [
                 'class' => 'form-control',
-                'placeholder' => 'Entrez le code affaire'
+                'placeholder' => 'Entrez le code affaire ou le code affaire en clair'
             ],
             'required' => false
         ])
