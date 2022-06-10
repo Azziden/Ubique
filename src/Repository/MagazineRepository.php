@@ -58,6 +58,7 @@ class MagazineRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
     
 
 //    /**
