@@ -28,9 +28,9 @@ class MagazineRepository extends ServiceEntityRepository
     public function search($mots){
         $query = $this->createQueryBuilder('m');
         if($mots != null){
-            $query->where('MATCH_AGAINST(m.code_affaire, m.code_affaire_en_clair)
-            AGAINST (:mots boolean)>0')
-                ->setParameter('mots', $mots);
+            $query->where('m.code_affaire LIKE :mots')
+                ->orWhere('m.code_affaire_en_clair LIKE :mots')
+                ->setParameter('mots',  "%" .$mots . "%");
                 
 
         }
