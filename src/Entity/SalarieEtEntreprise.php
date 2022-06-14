@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\SalarieEtEntrepriseRepository;
+use App\Entity\Redachef;
+use App\Entity\Iconographique;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SalarieEtEntrepriseRepository;
 
 #[ORM\Entity(repositoryClass: SalarieEtEntrepriseRepository::class)]
 class SalarieEtEntreprise
@@ -31,11 +33,12 @@ class SalarieEtEntreprise
     #[ORM\Column(type: 'string', length: 63)]
     private $abattement_30;
 
-    #[ORM\OneToOne(mappedBy: 'salarie_et_entreprise_id', targetEntity: Redachef::class, cascade: ['persist', 'remove'])]
-    private $redachef;
 
     #[ORM\OneToOne(mappedBy: 'salarie_et_entreprise', targetEntity: Iconographique::class, cascade: ['persist', 'remove'])]
     private $iconographique;
+
+    #[ORM\OneToOne(mappedBy: 'salarie_et_entreprise', targetEntity: Redachef::class, cascade: ['persist', 'remove'])]
+    private $redachef;
 
     public function getId(): ?int
     {

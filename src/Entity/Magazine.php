@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\MagazineRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Redachef;
+use App\Entity\Iconographique;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\MagazineRepository;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 #[ORM\Entity(repositoryClass: MagazineRepository::class)]
@@ -34,11 +36,11 @@ class Magazine
     #[ORM\Column(type: 'string', length: 127, nullable: true)]
     private $titre_en_clair;
 
-    #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Redachef::class)]
-    private $redachefs;
-
     #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Iconographique::class)]
     private $iconographiques;
+
+    #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Redachef::class)]
+    private $redachefs;
 
     public function __construct()
     {

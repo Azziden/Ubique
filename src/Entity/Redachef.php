@@ -33,7 +33,7 @@ class Redachef
     #[ORM\Column(type: 'float')]
     private $montant;
 
-    #[ORM\OneToOne(inversedBy: 'salarie_et_entreprise', targetEntity: SalarieEtEntreprise::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'redachef', targetEntity: SalarieEtEntreprise::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private $salarie_et_entreprise;
 
@@ -51,7 +51,7 @@ class Redachef
         return $this->article;
     }
 
-    public function setArticle(string $article): self
+    public function setArticle(?string $article): self
     {
         $this->article = $article;
 

@@ -26,7 +26,7 @@ class Iconographique
     #[ORM\Column(type: 'float')]
     private $montant;
 
-    #[ORM\ManyToOne(targetEntity: magazine::class, inversedBy: 'iconographiques')]
+    #[ORM\ManyToOne(targetEntity: Magazine::class, inversedBy: 'iconographiques')]
     #[ORM\JoinColumn(nullable: false)]
     private $magazine;
 

@@ -4,6 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Entity\Magazine;
+use App\Entity\Redachef;
+use App\Entity\Iconographique;
+use App\Entity\SalarieEtEntreprise;
 use App\Controller\Admin\UserCrudController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,8 +48,14 @@ class DashboardController extends AbstractDashboardController
         return [
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
 
-            MenuItem::section('Magazines'),
+            MenuItem::section('Entités'),
             MenuItem::linkToCrud('Magazine', 'fa fa-tags', Magazine::class),
+            MenuItem::linkToCrud('iconographique', 'fa fa-tags', Iconographique::class),
+            MenuItem::linkToCrud('Redachef', 'fa fa-tags', Redachef::class),
+            MenuItem::linkToCrud('SalarieEtEntreprise', 'fa fa-tags', SalarieEtEntreprise::class),
+           
+            
+            
 
             MenuItem::section('Users'),
             MenuItem::LinkToCrud('User', 'fa fa-user', User::class),
