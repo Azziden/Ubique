@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\IconographiqueRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\SalarieEtEntreprise;
+use App\Repository\IconographiqueRepository;
 
 #[ORM\Entity(repositoryClass: IconographiqueRepository::class)]
 class Iconographique
