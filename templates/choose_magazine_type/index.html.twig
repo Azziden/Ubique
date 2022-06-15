@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Choisissez le type
+{% endblock %}
+
+
+{% block body %}
+	<div class="container mt-4 ">
+		<h1>{{ magazine.codeAffaireEnClair }}</h1>
+		<hr>
+		<div class="row">
+			<div class="col-md-6">
+				<a href="{{ path('app_iconographique', {'magazine': magazine.id}) }}" class="btn btn-primary w-100">
+					Iconographique
+				</a>
+			</div>
+			<div class="col-md-6 mb-3">
+				<a href="{{ path('app_redachef', {'magazine': magazine.id}) }}" class="btn btn-primary w-100">
+					Redachef
+				</a>
+			</div>
+			<h3>Attributes</h3>
+			<div class="row">
+				<div class="col-md-6">
+					<form method="post" class="row">
+						<label for="date_de_parution" class="col-md-3 col-form-label">Date de Parution</label>
+						<div class="col-md-6">
+							<input class="form-control" type="text" value="{{ magazine.dateDeParution }}" placeholder="dd/mm/aaaa" id="date_de_parution" aria-label="Date de parution" name="date_de_parution" required {% if magazine.dateDeParution %} disabled {% endif %}>
+						</div>
+						<div class="col-md-3">
+							<button type="submit" class="btn btn-success w-100" {% if magazine.dateDeParution %} disabled {% endif %}>Enregistrer</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}

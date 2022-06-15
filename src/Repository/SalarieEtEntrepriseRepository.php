@@ -21,6 +21,8 @@ class SalarieEtEntrepriseRepository extends ServiceEntityRepository
         parent::__construct($registry, SalarieEtEntreprise::class);
     }
 
+    
+    
     public function add(SalarieEtEntreprise $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -29,6 +31,7 @@ class SalarieEtEntrepriseRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    
 
     public function remove(SalarieEtEntreprise $entity, bool $flush = false): void
     {

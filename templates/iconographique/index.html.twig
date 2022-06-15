@@ -1,20 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello IconographiqueController!{% endblock %}
-
+{% block title %}Accueil Ubique
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="/css/iconographique.css">
+{% endblock %}
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+	<div class="container accueil-bg m-auto">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Azziden/Desktop/Compresse/Ubique/src/Controller/IconographiqueController.php'|file_link(0) }}">src/Controller/IconographiqueController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Azziden/Desktop/Compresse/Ubique/templates/iconographique/index.html.twig'|file_link(0) }}">templates/iconographique/index.html.twig</a></code></li>
-    </ul>
-</div>
+		{% if app.user %}
+
+			<div class="mb-3 Magazine">
+				<h3>
+					{{magazine.codeAffaireEnClair}}
+				</h3>
+			</div>
+			<div class="container">
+				<h1 class='text-center'>Iconographique</h1>
+				<table class="table table-bordered table-dark">
+					<thead>
+						<tr>
+							<th scope="col">Nom d'usage</th>
+							<th scope="col">Nom compta</th>
+							<th scope="col">Statut</th>
+							<th scope="col">Type</th>
+							<th scope="col">Article</th>
+							<th scope="col">Nombre de photo</th>
+							<th scope="col">Prix par photo</th>
+							<th scope="col">Montant</th>
+							<th scope="col">Droit d'auteur</th>
+
+						</tr>
+					</thead>
+					<tbody>
+
+
+						{% for aIconographique in iconographique %}
+							<tr>
+								<td>{{ aIconographique.salarieEtEntreprise.nomDUsage }}</td>
+								<td>{{ aIconographique.salarieEtEntreprise.nomCompta }}</td>
+								<td>{{ aIconographique.salarieEtEntreprise.statut }}</td>
+								<td>{{ aIconographique.salarieEtEntreprise.type }}</td>
+								<td>{{ aIconographique.article }}</td>
+								<td>{{ aIconographique.nbPhoto }}</td>
+								<td>{{ aIconographique.prixPhoto }}</td>
+								<td>{{ aIconographique.montant }}</td>
+								<td>{{ aIconographique.salarieEtEntreprise.droitAuteur }}</td>
+							</tr>
+						{% endfor %}
+						<tr class="text-center add-row">
+							<td colspan="9">
+								<span>+</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		{% endif %}
+	</div>
 {% endblock %}
