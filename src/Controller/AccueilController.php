@@ -19,7 +19,7 @@ class AccueilController extends AbstractController
     #[Route('/', name: 'app_accueil')]
     public function index(MagazineRepository $magazineRepo, Request $request, PaginatorInterface $paginator ,ManagerRegistry $doctrine)
     {
-        
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
      
         $magazine = $doctrine->getRepository(Magazine::class)->findAll();
 

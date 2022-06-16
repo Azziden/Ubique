@@ -15,6 +15,9 @@ class ChooseMagazineTypeController extends AbstractController
     #[Route('/magazine/{magazine}', name: 'app_choose_magazine_type')]
     public function index(Magazine $magazine, Request $request, ManagerRegistry $doctrine): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        //Enregistrer date de parution dans bdd
         $entityManager = $doctrine->getManager();
 
         $date = $request->get('date_de_parution');
