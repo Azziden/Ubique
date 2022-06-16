@@ -42,6 +42,9 @@ class Magazine
     #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Redachef::class)]
     private $redachefs;
 
+    #[ORM\Column(type: 'float', length: 63, nullable: true)]
+    private $nb_de_page_redactionnelle;
+
     public function __construct()
     {
         $this->redachefs = new ArrayCollection();
@@ -169,6 +172,26 @@ class Magazine
                 $iconographique->setMagazine(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of nb_de_page_redactionnelle
+     */ 
+    public function getNbDePageRedactionnelle() : ?float
+    {
+        return $this->nb_de_page_redactionnelle;
+    }
+
+    /**
+     * Set the value of nb_de_page_redactionnelle
+     *
+     * @return  self
+     */ 
+    public function setNbDePageRedactionnelle(?float $nb_de_page_redactionnelle): self
+    {
+        $this->nb_de_page_redactionnelle = $nb_de_page_redactionnelle;
 
         return $this;
     }

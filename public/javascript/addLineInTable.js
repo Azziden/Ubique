@@ -11,7 +11,7 @@ function addLineInTable() {
     var cell1 = row.insertCell(7);
     var cell1 = row.insertCell(8);
 
-    //pausa tactica
+
 
 
 }
