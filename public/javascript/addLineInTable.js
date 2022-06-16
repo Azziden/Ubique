@@ -15,3 +15,13 @@ function addLineInTable() {
 
 
 }
+
+
+function onClickEvent() {
+
+    document.getElementById("").onclick = function () {
+
+
+    }
+
+}
