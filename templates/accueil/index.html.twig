@@ -34,6 +34,7 @@
 							<th scope="col">Date de bouclage</th>
 							<th scope="col">Date de parution</th>
 							<th scope="col">Titre en clair</th>
+							<th scope="col">Actions</th>
 						</tr>
 					</thead>
 
@@ -58,6 +59,11 @@
 								</td>
 								<td>
 									{{ aMagazine.titreEnClair }}
+								</td>
+								<td>
+									<a href="{{ path('app_choose_magazine_type', {'magazine': aMagazine.id}) }}">
+										<button class="btn btn-primary">Choisir</button>
+									</a>
 								</td>
 							</tr>
 

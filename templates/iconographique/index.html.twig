@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil Ubique
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="/css/iconographique.css">
+{% endblock %}
+{% block body %}
+
+	<div class="container accueil-bg m-auto">
+
+		{% if app.user %}
+
+			<div class="mb-3 Magazine">
+				<h3>
+					{{magazine.codeAffaireEnClair}}
+				</h3>
+			</div>
+			<div class="container">
+				<h1 class='text-center'>Iconographique</h1>
+				<table class="table table-bordered table-dark">
+					<thead>
+						<tr>
+							<th scope="col">Nom d'usage</th>
+							<th scope="col">Nom compta</th>
+							<th scope="col">Statut</th>
+							<th scope="col">Type</th>
+							<th scope="col">Article</th>
+							<th scope="col">Nombre de photo</th>
+							<th scope="col">Prix par photo</th>
+							<th scope="col">Montant</th>
+							<th scope="col">Droit d'auteur</th>
+
+						</tr>
+					</thead>
+					<tbody>
+
+
+						{% for aIconographique in iconographique %}
+							<tr>
+								<td>{{ aIconographique.salarieEtEntreprise.nomDUsage }}</td>
+								<td>{{ aIconographique.salarieEtEntreprise.nomCompta }}</td>
+								<td>{{ aIconographique.salarieEtEntreprise.statut }}</td>
+								<td>{{ aIconographique.salarieEtEntreprise.type }}</td>
+								<td>{{ aIconographique.article }}</td>
+								<td>{{ aIconographique.nbPhoto }}</td>
+								<td>{{ aIconographique.prixPhoto }}</td>
+								<td>{{ aIconographique.montant }}</td>
+								<td>{{ aIconographique.salarieEtEntreprise.droitAuteur }}</td>
+							</tr>
+						{% endfor %}
+						<tr class="text-center add-row">
+							<td colspan="9">
+								<span>+</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}

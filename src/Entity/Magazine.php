@@ -2,9 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\MagazineRepository;
+use App\Entity\Redachef;
+use App\Entity\Iconographique;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\MagazineRepository;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 #[ORM\Entity(repositoryClass: MagazineRepository::class)]
@@ -31,6 +35,18 @@ class Magazine
 
     #[ORM\Column(type: 'string', length: 127, nullable: true)]
     private $titre_en_clair;
+
+    #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Iconographique::class)]
+    private $iconographiques;
+
+    #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Redachef::class)]
+    private $redachefs;
+
+    public function __construct()
+    {
+        $this->redachefs = new ArrayCollection();
+        $this->iconographiques = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -93,6 +109,66 @@ class Magazine
     public function setTitreEnClair(?string $titre_en_clair): self
     {
         $this->titre_en_clair = $titre_en_clair;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Redachef>
+     */
+    public function getRedachefs(): Collection
+    {
+        return $this->redachefs;
+    }
+
+    public function addRedachef(Redachef $redachef): self
+    {
+        if (!$this->redachefs->contains($redachef)) {
+            $this->redachefs[] = $redachef;
+            $redachef->setMagazine($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRedachef(Redachef $redachef): self
+    {
+        if ($this->redachefs->removeElement($redachef)) {
+            // set the owning side to null (unless already changed)
+            if ($redachef->getMagazine() === $this) {
+                $redachef->setMagazine(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Iconographique>
+     */
+    public function getIconographiques(): Collection
+    {
+        return $this->iconographiques;
+    }
+
+    public function addIconographique(Iconographique $iconographique): self
+    {
+        if (!$this->iconographiques->contains($iconographique)) {
+            $this->iconographiques[] = $iconographique;
+            $iconographique->setMagazine($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIconographique(Iconographique $iconographique): self
+    {
+        if ($this->iconographiques->removeElement($iconographique)) {
+            // set the owning side to null (unless already changed)
+            if ($iconographique->getMagazine() === $this) {
+                $iconographique->setMagazine(null);
+            }
+        }
 
         return $this;
     }
