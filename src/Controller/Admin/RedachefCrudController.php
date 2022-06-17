@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Redachef;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
@@ -38,6 +39,8 @@ class RedachefCrudController extends AbstractCrudController
             TextField::new("statut")->onlyOnIndex(),
 
             TextField::new("type")->onlyOnIndex(),
+
+            NumberField::new("montant_total_brut", "Montant total brut")->setNumDecimals(2)->onlyOnIndex(),
 
             // We spread all the default sliced entity fields (+ not working correctly)
             ...$allExceptId
