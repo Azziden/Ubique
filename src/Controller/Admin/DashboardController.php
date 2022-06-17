@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Entity\Titre;
 use App\Entity\Magazine;
 use App\Entity\Redachef;
 use App\Entity\Iconographique;
@@ -14,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+
 
 class DashboardController extends AbstractDashboardController
 {
@@ -30,7 +32,7 @@ class DashboardController extends AbstractDashboardController
               // the name visible to end users
               ->setTitle('Ubique')
               // you can include HTML contents too (e.g. to link to an image)
-              ->setTitle('<img src="..."> Ubique <span class="text-small">Corp.</span>')
+              ->setTitle('<img src="..."> Ubique <span class="text-small"></span>')
   
               //the path defined in this method is passed to the Twig asset() function
               ->setFaviconPath('favicon.svg')
@@ -49,16 +51,17 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
 
             MenuItem::section('Entités'),
-            MenuItem::linkToCrud('Magazine', 'fa fa-tags', Magazine::class),
-            MenuItem::linkToCrud('iconographique', 'fa fa-tags', Iconographique::class),
+            MenuItem::linkToCrud('Magazines', 'fa fa-tags', Magazine::class),
+            MenuItem::linkToCrud('iconographies', 'fa fa-tags', Iconographique::class),
             MenuItem::linkToCrud('Redachef', 'fa fa-tags', Redachef::class),
-            MenuItem::linkToCrud('SalarieEtEntreprise', 'fa fa-tags', SalarieEtEntreprise::class),
+            MenuItem::linkToCrud('Salaries et Entreprises', 'fa fa-tags', SalarieEtEntreprise::class),
+            MenuItem::linkToCrud('Titres', 'fa fa-tags', Titre::class),
            
             
             
 
-            MenuItem::section('Users'),
-            MenuItem::LinkToCrud('User', 'fa fa-user', User::class),
+            MenuItem::section('Utilisateurs'),
+            MenuItem::LinkToCrud('Utilisatuers', 'fa fa-user', User::class),
 
         ];
     }

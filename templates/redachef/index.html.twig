@@ -5,63 +5,84 @@
 {% block stylesheets %}
 	<link rel="stylesheet" href="/css/iconographique.css">
 {% endblock %}
+{% block javascripts %}
+	<script src="{{ asset('javascript/app.js') }}"></script>
+{% endblock %}
 {% block body %}
 
-	<div class="container accueil-bg m-auto">
+<div class="container accueil-bg m-auto">
 
-		{% if app.user %}
+	{% if app.user %}
 
-			<div class="mb-3 Magazine">
-				<h3>
-					{{magazine.codeAffaireEnClair}}
-				</h3>
+		<div class="mb-3 Magazine">
+			<h3>
+				{{magazine.codeAffaireEnClair}}
+			</h3>
+		</div>
+		<div class="col">
+			<div class="col-md-12">
+				<form method="post" class="row">
+					<label for="nb_de_page_redactionnelle" class="col-md-3 col-form-label">Nombre de page redactionnelle</label>
+					<div class="col-md-6">
+						<input class="form-control" type="text" value="{{ magazine.nbDePageRedactionnelle }}" id="nb_de_page_redactionnelle" placeholder="Nombre de page redactionnelle" aria-label="Nombre de page redactionnelle" name="nb_de_page_redactionnelle" required {% if magazine.nbDePageRedactionnelle %} disabled {% endif %}>
+					</div>
+					<div class="col-md-3">
+						<button type="submit" class="btn btn-success w-100" {% if magazine.nbDePageRedactionnelle %} disabled {% endif %}>Enregistrer</button>
+					</div>
+				</form>
 			</div>
-			<div class="container">
-				<h1 class='text-center'>Redachef</h1>
-				<table class="table table-bordered table-dark">
-					<thead>
-						<tr>
-							<th scope="col">Nom d'usage</th>
-							<th scope="col">Nom compta</th>
-							<th scope="col">Statut</th>
-							<th scope="col">Type</th>
-							<th scope="col">Article</th>
-							<th scope="col">Signe</th>
-							<th scope="col">Nombre de feuillet</th>
-							<th scope="col">Forfait</th>
-							<th scope="col">Prix au feuillet</th>
-							<th scope="col">Montant</th>
-							<th scope="col">Droit d'auteur</th>
+		</div>
+		<hr>
 
-						</tr>
-					</thead>
-					<tbody>
+		<div class="container">
+			<h1 class='text-center'>Redachef</h1>
+			<table class="table table-bordered table-dark">
+				<thead>
+					<tr>
+						<th scope="col">Nom d'usage</th>
+						<th scope="col">Nom compta</th>
+						<th scope="col">Statut</th>
+						<th scope="col">Type</th>
+						<th scope="col">Article</th>
+						<th scope="col">Signe</th>
+						<th scope="col">Nombre de feuillet</th>
+						<th scope="col">Forfait</th>
+						<th scope="col">Prix au feuillet</th>
+						<th scope="col">Montant</th>
+						<th scope="col">Droit d'auteur</th>
+
+					</tr>
+				</thead>
+				<tbody id="table_body">
 
 
-						<tr>
-							{% for aRedachef in redachef %}
-								<td>{{ aRedachef.salarieEtEntreprise.nomDUsage }}</td>
-								<td>{{ aRedachef.salarieEtEntreprise.nomCompta }}</td>
-								<td>{{ aRedachef.salarieEtEntreprise.statut }}</td>
-								<td>{{ aRedachef.salarieEtEntreprise.type }}</td>
-								<td>{{ aRedachef.article }}</td>
-								<td>{{ aRedachef.signe }}</td>
-								<td>{{ aRedachef.nbDeFeuillet }}</td>
-								<td>{{ aRedachef.forfait }}</td>
-								<td>{{ aRedachef.prixAuFeuillet }}</td>
-								<td>{{ aRedachef.montant }}</td>
-								<td>{{ aRedachef.salarieEtEntreprise.droitAuteur }}</td>
+					<tr>
+						{% for aRedachef in redachef %}
+							<td>{{ aRedachef.nomDUsage }}</td>
+							<td>{{ aRedachef.nomCompta }}</td>
+							<td>{{ aRedachef.statut }}</td>
+							<td>{{ aRedachef.type }}</td>
+							<td>{{ aRedachef.article }}</td>
+							<td>{{ aRedachef.signe }}</td>
+							<td>{{ aRedachef.nbDeFeuillet }}</td>
+							<td>{{ aRedachef.forfait }}</td>
+							<td>{{ aRedachef.prixAuFeuillet }}</td>
+							<td>{{ aRedachef.montant }}</td>
+							<td>{{ aRedachef.salarieEtEntreprise.droitAuteur }}</td>
 
-							{% endfor %}
-						</tr>
-						<tr class="text-center add-row">
-							<td colspan="11">
-								<span>+</span>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		{% endif %}
-	</div>
-{% endblock %}
+						{% endfor %}
+					</tr>
+					<tr class="text-center add-row">
+						<td colspan="11">
+							<button class="success" onclick="create_tr('table_body')">
+
+
+								<span onclick="create_tr(table_body)">+</span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</td>
+		</tr>
+	</tbody>
+</table></div>{% endif %}</div>{% endblock %}
