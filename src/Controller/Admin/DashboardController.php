@@ -51,17 +51,17 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
 
             MenuItem::section('Entités'),
-            MenuItem::linkToCrud('Magazine', 'fa fa-tags', Magazine::class),
-            MenuItem::linkToCrud('iconographique', 'fa fa-tags', Iconographique::class),
+            MenuItem::linkToCrud('Magazines', 'fa fa-tags', Magazine::class),
+            MenuItem::linkToCrud('iconographies', 'fa fa-tags', Iconographique::class),
             MenuItem::linkToCrud('Redachef', 'fa fa-tags', Redachef::class),
-            MenuItem::linkToCrud('SalarieEtEntreprise', 'fa fa-tags', SalarieEtEntreprise::class),
-            MenuItem::linkToCrud('Titre', 'fa fa-tags', Titre::class),
+            MenuItem::linkToCrud('Salaries et Entreprises', 'fa fa-tags', SalarieEtEntreprise::class),
+            MenuItem::linkToCrud('Titres', 'fa fa-tags', Titre::class),
            
             
             
 
-            MenuItem::section('Users'),
-            MenuItem::LinkToCrud('User', 'fa fa-user', User::class),
+            MenuItem::section('Utilisateurs'),
+            MenuItem::LinkToCrud('Utilisatuers', 'fa fa-user', User::class),
 
         ];
     }
