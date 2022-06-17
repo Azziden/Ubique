@@ -61,7 +61,7 @@ class DashboardController extends AbstractDashboardController
             
 
             MenuItem::section('Utilisateurs'),
-            MenuItem::LinkToCrud('Utilisatuers', 'fa fa-user', User::class),
+            MenuItem::LinkToCrud('Utilisateurs', 'fa fa-user', User::class),
 
         ];
     }
