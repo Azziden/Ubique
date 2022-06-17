@@ -32,7 +32,7 @@ class DashboardController extends AbstractDashboardController
               // the name visible to end users
               ->setTitle('Ubique')
               // you can include HTML contents too (e.g. to link to an image)
-              ->setTitle('<img src="..."> Ubique <span class="text-small">Corp.</span>')
+              ->setTitle('<img src="..."> Ubique <span class="text-small"></span>')
   
               //the path defined in this method is passed to the Twig asset() function
               ->setFaviconPath('favicon.svg')
