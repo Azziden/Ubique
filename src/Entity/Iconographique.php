@@ -110,4 +110,23 @@ class Iconographique
 
         return $this;
     }
+    
+    
+    // SalarieEtEntreprise attributes for Dashboard and Iconographique view
+
+    public function getNomDUsage(): string {
+        return $this->getSalarieEtEntreprise()->getNomDUsage();
+    }
+
+    public function getNomCompta(): string {
+        return $this->getSalarieEtEntreprise()->getNomCompta();
+    }
+
+    public function getStatut(): string {
+        return $this->getSalarieEtEntreprise()->getStatut();
+    }
+
+    public function getType(): string {
+        return $this->getSalarieEtEntreprise()->getType();
+    }
 }
