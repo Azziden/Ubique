@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Entity\Titre;
 use App\Entity\Magazine;
 use App\Entity\Redachef;
 use App\Entity\Iconographique;
@@ -14,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+
 
 class DashboardController extends AbstractDashboardController
 {
@@ -53,6 +55,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('iconographique', 'fa fa-tags', Iconographique::class),
             MenuItem::linkToCrud('Redachef', 'fa fa-tags', Redachef::class),
             MenuItem::linkToCrud('SalarieEtEntreprise', 'fa fa-tags', SalarieEtEntreprise::class),
+            MenuItem::linkToCrud('Titre', 'fa fa-tags', Titre::class),
            
             
             
