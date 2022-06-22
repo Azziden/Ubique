@@ -32,7 +32,7 @@ class DashboardController extends AbstractDashboardController
               // the name visible to end users
               ->setTitle('Ubique')
               // you can include HTML contents too (e.g. to link to an image)
-              ->setTitle('<img src="..."> Ubique <span class="text-small"></span>')
+              ->setTitle('Ubique <span class="text-small"></span>')
   
               //the path defined in this method is passed to the Twig asset() function
               ->setFaviconPath('favicon.svg')
@@ -52,7 +52,7 @@ class DashboardController extends AbstractDashboardController
 
             MenuItem::section('Entités'),
             MenuItem::linkToCrud('Magazines', 'fa fa-tags', Magazine::class),
-            MenuItem::linkToCrud('iconographies', 'fa fa-tags', Iconographique::class),
+            MenuItem::linkToCrud('iconographiques', 'fa fa-tags', Iconographique::class),
             MenuItem::linkToCrud('Redachef', 'fa fa-tags', Redachef::class),
             MenuItem::linkToCrud('Salaries et Entreprises', 'fa fa-tags', SalarieEtEntreprise::class),
             MenuItem::linkToCrud('Titres', 'fa fa-tags', Titre::class),

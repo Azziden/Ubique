@@ -198,5 +198,7 @@ class Redachef
     public function getRacine(): string {
         return $this->getMagazine()->getTitre()->getRacine();
     }
+
+    
    
 }

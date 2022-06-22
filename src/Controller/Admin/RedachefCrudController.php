@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Redachef;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -10,6 +11,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class RedachefCrudController extends AbstractCrudController
 {
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setSearchFields(['article','salarie_et_entreprise.statut', 'salarie_et_entreprise.nom_d_usage', 'salarie_et_entreprise.nom_compta', 'salarie_et_entreprise.type', 'magazine.code_affaire', 'magazine.titre.racine']);
+    }
+
     public static function getEntityFqcn(): string
     {
         return Redachef::class;

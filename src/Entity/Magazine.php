@@ -46,7 +46,7 @@ class Magazine
     private $nb_de_page_redactionnelle;
 
     #[ORM\ManyToOne(targetEntity: Titre::class, inversedBy: 'magazines')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $titre;
 
     
@@ -214,8 +214,12 @@ class Magazine
         return $this;
     }
 
+    public function getRacine(): ?string {
+        return $this->getTitre()?->getRacine();
+    }
+
     public function __toString(): string {
         return "[" . $this->code_affaire . "] " . $this->code_affaire_en_clair;
     }
-   
+
 }

@@ -117,4 +117,8 @@ class Titre
 
         return $this;
     }
+    
+    public function __toString(): string {
+        return "[" . $this->getRacine() . "] " . $this->getTitreDansTableauDirection();
+    }
 }

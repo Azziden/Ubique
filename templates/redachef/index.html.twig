@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil Ubique
+{% block title %}
+	{{magazine.codeAffaireEnClair}}
 {% endblock %}
 {% block stylesheets %}
 	<link rel="stylesheet" href="/css/iconographique.css">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
 {% endblock %}
 {% block javascripts %}
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	<script src="{{ asset('javascript/app.js') }}" defer></script>
 {% endblock %}
 {% block body %}
@@ -37,42 +41,40 @@
 			<div class="container" style="position: relative; padding: 0">
 				<div class="edit-tooltip" id="edit-tooltip" style="display: none"></div>
 				<h1 class='text-center'>Redachef</h1>
-				<table class="table table-bordered table-dark" id="table" method="post">
+				<input id="autocomplete-url" type="hidden" value="{{ path('app_salarie_et_entreprise_search') }}">
+				<table class="table table-bordered table-dark" id="table">
 					<thead>
 						<tr>
-							<th scope="col">Nom d'usage</th>
-							<th scope="col">Nom compta</th>
-							<th scope="col">Statut</th>
-							<th scope="col">Type</th>
-							<th scope="col">Article</th>
-							<th scope="col">Signe</th>
-							<th scope="col">Nombre de feuillet</th>
-							<th scope="col">Forfait</th>
-							<th scope="col">Prix au feuillet</th>
-							<th scope="col">Montant</th>
-							<th scope="col">Droit d'auteur</th>
+							<th scope="col" data-column="nom_d_usage">Nom d'usage</th>
+							<th scope="col" data-collapse-to="0" data-column="nom_compta">Nom compta</th>
+							<th scope="col" data-collapse-to="0" data-column="statut">Statut</th>
+							<th scope="col" data-collapse-to="0" data-column="type">Type</th>
+							<th scope="col" data-collapse-to="0" data-column="droit_auteur">Droit d'auteur</th>
+							<th scope="col" data-type="string" data-max-length="63" data-name="article">Article</th>
+							<th scope="col" data-type="int" data-max-length="11" data-name="signe">Signe</th>
+							<th scope="col" data-type="double" data-name="nb_de_feuillet">Nombre de feuillet</th>
+							<th scope="col" data-type="double" data-name="forfait">Forfait</th>
+							<th scope="col" data-type="double" data-name="prix_au_feuillet">Prix au feuillet</th>
+							<th scope="col" data-type="double" data-required="true" data-name="montant">Montant</th>
 
 						</tr>
 					</thead>
 					<tbody>
-
-
-						<tr>
-							{% for aRedachef in redachef %}
+						{% for aRedachef in redachef %}
+							<tr>
 								<td>{{ aRedachef.nomDUsage }}</td>
 								<td>{{ aRedachef.nomCompta }}</td>
 								<td>{{ aRedachef.statut }}</td>
 								<td>{{ aRedachef.type }}</td>
+								<td>{{ aRedachef.salarieEtEntreprise.droitAuteur }}</td>
 								<td>{{ aRedachef.article }}</td>
 								<td>{{ aRedachef.signe }}</td>
 								<td>{{ aRedachef.nbDeFeuillet }}</td>
 								<td>{{ aRedachef.forfait }}</td>
 								<td>{{ aRedachef.prixAuFeuillet }}</td>
 								<td>{{ aRedachef.montant }}</td>
-								<td>{{ aRedachef.salarieEtEntreprise.droitAuteur }}</td>
-
-							{% endfor %}
-						</tr>
+							</tr>
+						{% endfor %}
 						<tr class="text-center add-row" id="add_row">
 							<td colspan="11">
 								<span>+</span>
@@ -81,9 +83,13 @@
 					</tbody>
 				</table>
 				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					<button class="btn btn-success float-right">
-						Enregistrer
-					</button>
+					<form method="post" id="data-form" action="{{ path('app_redachef', {'magazine': magazine.id}) }}">
+						<input type="hidden" name="data" id="data-input">
+
+						<button class="btn btn-success float-right" type="submit">
+							Enregistrer
+						</button>
+					</form>
 				</div>
 			</div>
 		{% endif %}
