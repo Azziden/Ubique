@@ -35,6 +35,9 @@ class IconographiqueCrudController extends AbstractCrudController
             // This associated field is only gonna be visible on the forms (edit & new)
             AssociationField::new("salarie_et_entreprise")->onlyOnForms()->autocomplete(),
 
+            // This associated field is only gonna be visible on the forms (edit & new)
+            AssociationField::new("magazine")->onlyOnForms()->autocomplete(),
+
             // And all the text fields are only gonna be visible on the index page
             TextField::new("nom_d_usage", "Nom d'usage")->onlyOnIndex(),
 
@@ -45,7 +48,11 @@ class IconographiqueCrudController extends AbstractCrudController
             TextField::new("type")->onlyOnIndex(),
 
             // We spread all the default sliced entity fields (+ not working correctly)
-            ...$allExceptId
+            ...$allExceptId,
+
+            TextField::new("code_affaire")->onlyOnIndex(),
+
+            TextField::new("racine")->onlyOnIndex()
         ];
     }
 }

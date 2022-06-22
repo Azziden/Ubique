@@ -129,4 +129,12 @@ class Iconographique
     public function getType(): string {
         return $this->getSalarieEtEntreprise()->getType();
     }
+
+    public function getCodeAffaire(): string {
+        return $this->getMagazine()->getCodeAffaire();
+    }
+
+    public function getRacine(): string {
+        return $this->getMagazine()->getTitre()->getRacine();
+    }
 }

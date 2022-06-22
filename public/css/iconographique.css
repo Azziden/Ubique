@@ -18,3 +18,38 @@ tr.add-row:hover {
 tr.add-row:active {
     opacity: 1;
 }
+
+td .row-input {
+    background: transparent;
+    border: none;
+    width: 108px;
+    height: 24px;
+    color: white;
+    font-style: italic;
+    outline: none;
+}
+
+.edit-tooltip {
+    position: absolute;
+    padding: 15px;
+    background: #212529;
+    border: 1px solid #373b3e;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    box-shadow: 1px 1px 7px 3px rgb(0 0 0 / 50%);
+}
+
+.edit-tooltip:after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #212529;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%, 0) rotate(45deg);
+    border: 1px solid #606060;
+    border-top: none;
+    border-left: none;
+}

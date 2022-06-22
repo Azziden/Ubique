@@ -3,12 +3,20 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Redachef;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class RedachefCrudController extends AbstractCrudController
 {
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setSearchFields(['article','salarie_et_entreprise.statut', 'salarie_et_entreprise.nom_d_usage', 'salarie_et_entreprise.nom_compta', 'salarie_et_entreprise.type', 'magazine.code_affaire', 'magazine.titre.racine']);
+    }
+
     public static function getEntityFqcn(): string
     {
         return Redachef::class;
@@ -30,6 +38,9 @@ class RedachefCrudController extends AbstractCrudController
             // This associated field is only gonna be visible on the forms (edit & new)
             AssociationField::new("salarie_et_entreprise")->onlyOnForms()->autocomplete(),
 
+            // This associated field is only gonna be visible on the forms (edit & new)
+            AssociationField::new("magazine")->onlyOnForms()->autocomplete(),
+
             // And all the text fields are only gonna be visible on the index page
             TextField::new("nom_d_usage", "Nom d'usage")->onlyOnIndex(),
 
@@ -39,8 +50,18 @@ class RedachefCrudController extends AbstractCrudController
 
             TextField::new("type")->onlyOnIndex(),
 
-            // We spread all the default sliced entity fields (+ not working correctly)
-            ...$allExceptId
+            // We spread all the default sliced entity fields ("+" not working correctly)
+            ...$allExceptId,
+
+            NumberField::new("montant_total_brut", "Montant total brut")->setNumDecimals(2)->onlyOnIndex(),
+
+            NumberField::new("montant_charge", "Montant chargé")->setNumDecimals(2)->onlyOnIndex(),
+            
+            TextField::new("code_affaire")->onlyOnIndex(),
+
+            TextField::new("racine")->onlyOnIndex(),
+
+
         ];
     }
 }

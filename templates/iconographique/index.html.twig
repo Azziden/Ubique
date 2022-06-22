@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil Ubique
+{% block title %}
+	{{magazine.codeAffaireEnClair}}
 {% endblock %}
 {% block stylesheets %}
 	<link rel="stylesheet" href="/css/iconographique.css">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
 {% endblock %}
 {% block javascripts %}
-	<script src="{{ asset('javascript/app.js') }}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<script src="{{ asset('javascript/app.js') }}" defer></script>
 {% endblock %}
 {% block body %}
 
@@ -19,20 +23,22 @@
 					{{magazine.codeAffaireEnClair}}
 				</h3>
 			</div>
-			<div class="container">
+			<div class="container" style="position: relative; padding: 0">
+				<div class="edit-tooltip" id="edit-tooltip" style="display: none"></div>
 				<h1 class='text-center'>Iconographique</h1>
-				<table class="table table-bordered table-dark">
+				<input id="autocomplete-url" type="hidden" value="{{ path('app_salarie_et_entreprise_search') }}">
+				<table class="table table-bordered table-dark" id="table">
 					<thead>
 						<tr>
-							<th scope="col">Nom d'usage</th>
-							<th scope="col">Nom compta</th>
-							<th scope="col">Statut</th>
-							<th scope="col">Type</th>
-							<th scope="col">Article</th>
-							<th scope="col">Nombre de photo</th>
-							<th scope="col">Prix par photo</th>
-							<th scope="col">Montant</th>
-							<th scope="col">Droit d'auteur</th>
+							<th scope="col" data-column="nom_d_usage">Nom d'usage</th>
+							<th scope="col" data-collapse-to="0" data-column="nom_compta">Nom compta</th>
+							<th scope="col" data-collapse-to="0" data-column="statut">Statut</th>
+							<th scope="col" data-collapse-to="0" data-column="type">Type</th>
+							<th scope="col" data-collapse-to="0" data-column="droit_auteur">Droit d'auteur</th>
+							<th scope="col" data-type="string" data-max-length="63" data-name="article">Article</th>
+							<th scope="col" data-type="int" data-max-length="11" data-name="nb_photo">Nombre de photo</th>
+							<th scope="col" data-type="int" data-max-length="11" data-name="prix_photo">Prix par photo</th>
+							<th scope="col" data-type="double" data-required="true" data-name="montant">Montant</th>
 
 						</tr>
 					</thead>
@@ -45,21 +51,29 @@
 								<td>{{ aIconographique.nomCompta }}</td>
 								<td>{{ aIconographique.statut }}</td>
 								<td>{{ aIconographique.type }}</td>
+								<td>{{ aIconographique.salarieEtEntreprise.droitAuteur }}</td>
 								<td>{{ aIconographique.article }}</td>
 								<td>{{ aIconographique.nbPhoto }}</td>
 								<td>{{ aIconographique.prixPhoto }}</td>
 								<td>{{ aIconographique.montant }}</td>
-								<td>{{ aIconographique.salarieEtEntreprise.droitAuteur }}</td>
 							</tr>
 						{% endfor %}
-						<tr class="text-center add-row">
+						<tr class="text-center add-row" id="add_row">
 							<td colspan="9">
 								<span>+</span>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-			</div>
-		{% endif %}
-	</div>
-{% endblock %}
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					<form method="post" id="data-form" action="{{ path('app_iconographique', {'magazine': magazine.id}) }}">
+						<input type="hidden" name="data" id="data-input">
+
+						<button class="btn btn-success float-right" type=" submit">
+							Enregistrer
+						</button>
+					</div>
+				</div>
+			{% endif %}
+		</div>
+	{% endblock %}

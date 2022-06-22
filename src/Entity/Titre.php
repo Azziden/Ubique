@@ -21,15 +21,18 @@ class Titre
     #[ORM\Column(type: 'string', length: 63)]
     private $clients;
 
-    #[ORM\OneToMany(mappedBy: 'titre', targetEntity: Magazine::class)]
+    #[ORM\Column(type: 'string', length: 15)]
     private $racine;
 
     #[ORM\Column(type: 'string', length: 127)]
     private $racine_en_clair;
 
+    #[ORM\OneToMany(mappedBy: 'titre', targetEntity: Magazine::class)]
+    private $magazines;
+
     public function __construct()
     {
-        $this->racine = new ArrayCollection();
+        $this->magazines = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,32 +64,14 @@ class Titre
         return $this;
     }
 
-    /**
-     * @return Collection<int, Magazine>
-     */
-    public function getRacine(): Collection
+    public function getRacine(): ?string
     {
         return $this->racine;
     }
 
-    public function addRacine(Magazine $racine): self
+    public function setRacine(string $racine): self
     {
-        if (!$this->racine->contains($racine)) {
-            $this->racine[] = $racine;
-            $racine->setTitre($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRacine(Magazine $racine): self
-    {
-        if ($this->racine->removeElement($racine)) {
-            // set the owning side to null (unless already changed)
-            if ($racine->getTitre() === $this) {
-                $racine->setTitre(null);
-            }
-        }
+        $this->racine = $racine;
 
         return $this;
     }
@@ -101,5 +86,39 @@ class Titre
         $this->racine_en_clair = $racine_en_clair;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Magazine>
+     */
+    public function getMagazines(): Collection
+    {
+        return $this->magazines;
+    }
+
+    public function addMagazine(Magazine $magazine): self
+    {
+        if (!$this->magazines->contains($magazine)) {
+            $this->magazines[] = $magazine;
+            $magazine->setTitre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMagazine(Magazine $magazine): self
+    {
+        if ($this->magazines->removeElement($magazine)) {
+            // set the owning side to null (unless already changed)
+            if ($magazine->getTitre() === $this) {
+                $magazine->setTitre(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    public function __toString(): string {
+        return "[" . $this->getRacine() . "] " . $this->getTitreDansTableauDirection();
     }
 }

@@ -66,4 +66,29 @@ class SalarieEtEntrepriseRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findAllMatching(string $query, int $limit = 5)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.nom_d_usage LIKE :query')
+            ->leftJoin('u.redachef', 'r')
+            ->andWhere('r.id is null')
+            ->setParameter('query', '%'.$query.'%')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllMatchingIcono(string $query, int $limit = 5)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.nom_d_usage LIKE :query')
+            ->leftJoin('u.iconographique', 'i')
+            ->andWhere('i.id is null')
+            ->setParameter('query', '%'.$query.'%')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

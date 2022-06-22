@@ -33,6 +33,13 @@ class Redachef
     #[ORM\Column(type: 'float')]
     private $montant;
 
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $montant_total_brut;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $montant_charge;
+
+
     #[ORM\OneToOne(inversedBy: 'redachef', targetEntity: SalarieEtEntreprise::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private $salarie_et_entreprise;
@@ -118,6 +125,30 @@ class Redachef
         return $this;
     }
 
+    public function getMontantTotalBrut(): ?float
+    {
+        return $this->montant_total_brut;
+    }
+
+    public function setMontantTotalBrut(?float $montant_total_brut): self
+    {
+        $this->montant_total_brut = $montant_total_brut;
+
+        return $this;
+    }
+
+    public function getMontantCharge(): ?float
+    {
+        return $this->montant_charge;
+    }
+
+    public function setMontantCharge(?float $montant_charge): self
+    {
+        $this->montant_charge = $montant_charge;
+
+        return $this;
+    }
+
     public function getSalarieEtEntreprise(): ?SalarieEtEntreprise
     {
         return $this->salarie_et_entreprise;
@@ -159,4 +190,15 @@ class Redachef
     public function getType(): string {
         return $this->getSalarieEtEntreprise()->getType();
     }
+
+    public function getCodeAffaire(): string {
+        return $this->getMagazine()->getCodeAffaire();
+    }
+
+    public function getRacine(): string {
+        return $this->getMagazine()->getTitre()->getRacine();
+    }
+
+    
+   
 }
