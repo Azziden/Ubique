@@ -134,7 +134,7 @@ class Iconographique
         return $this->getMagazine()->getCodeAffaire();
     }
 
-    public function getRacine(): string {
-        return $this->getMagazine()->getTitre()->getRacine();
+    public function getRacine(): ?string {
+        return $this->getMagazine()->getTitre()?->getRacine();
     }
 }
