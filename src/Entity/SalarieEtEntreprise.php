@@ -2,9 +2,14 @@
 
 namespace App\Entity;
 
+
+
+
 use App\Entity\Redachef;
 use App\Entity\Iconographique;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\SalarieEtEntrepriseRepository;
 
 #[ORM\Entity(repositoryClass: SalarieEtEntrepriseRepository::class)]
@@ -33,12 +38,19 @@ class SalarieEtEntreprise
     #[ORM\Column(type: 'string', length: 63)]
     private $abattement_30;
 
+    #[ORM\OneToMany(mappedBy: 'salarie_et_entreprise', targetEntity: Redachef::class)]
+    private $redachefs;
 
-    #[ORM\OneToOne(mappedBy: 'salarie_et_entreprise', targetEntity: Iconographique::class, cascade: ['persist', 'remove'])]
-    private $iconographique;
+    #[ORM\OneToMany(mappedBy: 'salarie_et_entreprise', targetEntity: Iconographique::class)]
+    private $iconographiques;
 
-    #[ORM\OneToOne(mappedBy: 'salarie_et_entreprise', targetEntity: Redachef::class, cascade: ['persist', 'remove'])]
-    private $redachef;
+    public function __construct()
+    {
+        $this->redachefs = new ArrayCollection();
+        $this->iconographiques = new ArrayCollection();
+    }
+
+  
 
     public function getId(): ?int
     {
@@ -117,21 +129,9 @@ class SalarieEtEntreprise
         return $this;
     }
 
-    public function getRedachef(): ?Redachef
-    {
-        return $this->redachef;
-    }
-
-    public function setRedachef(Redachef $redachef): self
-    {
-        // set the owning side of the relation if necessary
-        if ($redachef->getSalarieEtEntreprise() !== $this) {
-            $redachef->setSalarieEtEntreprise($this);
-        }
-
-        $this->redachef = $redachef;
-
-        return $this;
+    
+    public function __toString(): string {
+        return $this->getNomDUsage();
     }
 
     public function getIconographique(): ?Iconographique
@@ -139,19 +139,83 @@ class SalarieEtEntreprise
         return $this->iconographique;
     }
 
-    public function setIconographique(Iconographique $iconographique): self
+    public function setIconographique(?Iconographique $iconographique): self
     {
-        // set the owning side of the relation if necessary
-        if ($iconographique->getSalarieEtEntreprise() !== $this) {
-            $iconographique->setSalarieEtEntreprise($this);
-        }
-
         $this->iconographique = $iconographique;
 
         return $this;
     }
 
-    public function __toString(): string {
-        return $this->getNomDUsage();
+    public function getRedachef(): ?Redachef
+    {
+        return $this->redachef;
     }
+
+    public function setRedachef(?Redachef $redachef): self
+    {
+        $this->redachef = $redachef;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Redachef>
+     */
+    public function getRedachefs(): Collection
+    {
+        return $this->redachefs;
+    }
+
+    public function addRedachef(Redachef $redachef): self
+    {
+        if (!$this->redachefs->contains($redachef)) {
+            $this->redachefs[] = $redachef;
+            $redachef->setSalarieEtEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRedachef(Redachef $redachef): self
+    {
+        if ($this->redachefs->removeElement($redachef)) {
+            // set the owning side to null (unless already changed)
+            if ($redachef->getSalarieEtEntreprise() === $this) {
+                $redachef->setSalarieEtEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Iconographique>
+     */
+    public function getIconographiques(): Collection
+    {
+        return $this->iconographiques;
+    }
+
+    public function addIconographique(Iconographique $iconographique): self
+    {
+        if (!$this->iconographiques->contains($iconographique)) {
+            $this->iconographiques[] = $iconographique;
+            $iconographique->setSalarieEtEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIconographique(Iconographique $iconographique): self
+    {
+        if ($this->iconographiques->removeElement($iconographique)) {
+            // set the owning side to null (unless already changed)
+            if ($iconographique->getSalarieEtEntreprise() === $this) {
+                $iconographique->setSalarieEtEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+    
 }

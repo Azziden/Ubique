@@ -13,7 +13,7 @@ class SalarieEtEntrepriseController extends AbstractController
     #[Route('/salarie-et-entreprise/search', name: 'app_salarie_et_entreprise_search')]
     public function index(SalarieEtEntrepriseRepository $repository, Request $request): Response
     {
-        //$data = $repository->findAllMatchingIcono($request->query->get('query'));
+        $data = $repository->findAllMatchingIcono($request->query->get('query'));
         $data = $repository->findAllMatching($request->query->get('query'));
         $noms = [];
 

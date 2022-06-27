@@ -21,9 +21,6 @@ class IconographiqueRepository extends ServiceEntityRepository
         parent::__construct($registry, Iconographique::class);
     }
 
-    
-   
-
     public function add(Iconographique $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

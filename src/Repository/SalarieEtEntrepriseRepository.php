@@ -71,8 +71,6 @@ class SalarieEtEntrepriseRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.nom_d_usage LIKE :query')
-            ->leftJoin('u.redachef', 'r')
-            ->andWhere('r.id is null')
             ->setParameter('query', '%'.$query.'%')
             ->setMaxResults($limit)
             ->getQuery()
@@ -83,8 +81,6 @@ class SalarieEtEntrepriseRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.nom_d_usage LIKE :query')
-            ->leftJoin('u.iconographique', 'i')
-            ->andWhere('i.id is null')
             ->setParameter('query', '%'.$query.'%')
             ->setMaxResults($limit)
             ->getQuery()

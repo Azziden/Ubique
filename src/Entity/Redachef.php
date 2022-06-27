@@ -39,14 +39,11 @@ class Redachef
     #[ORM\Column(type: 'float', nullable: true)]
     private $montant_charge;
 
-
-    #[ORM\OneToOne(inversedBy: 'redachef', targetEntity: SalarieEtEntreprise::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private $salarie_et_entreprise;
-
     #[ORM\ManyToOne(targetEntity: Magazine::class, inversedBy: 'redachefs')]
-    #[ORM\JoinColumn(nullable: false)]
     private $magazine;
+
+    #[ORM\ManyToOne(targetEntity: SalarieEtEntreprise::class, inversedBy: 'redachefs')]
+    private $salarie_et_entreprise;
 
     public function getId(): ?int
     {
@@ -149,18 +146,6 @@ class Redachef
         return $this;
     }
 
-    public function getSalarieEtEntreprise(): ?SalarieEtEntreprise
-    {
-        return $this->salarie_et_entreprise;
-    }
-
-    public function setSalarieEtEntreprise(SalarieEtEntreprise $salarie_et_entreprise): self
-    {
-        $this->salarie_et_entreprise = $salarie_et_entreprise;
-
-        return $this;
-    }
-
     public function getMagazine(): ?Magazine
     {
         return $this->magazine;
@@ -173,9 +158,20 @@ class Redachef
         return $this;
     }
 
-    // SalarieEtEntreprise attributes for Dashboard and Redachef view
+    public function getSalarieEtEntreprise(): ?SalarieEtEntreprise
+    {
+        return $this->salarie_et_entreprise;
+    }
 
-    public function getNomDUsage(): string {
+    public function setSalarieEtEntreprise(?SalarieEtEntreprise $salarie_et_entreprise): self
+    {
+        $this->salarie_et_entreprise = $salarie_et_entreprise;
+
+        return $this;
+    }
+     // SalarieEtEntreprise attributes for Dashboard and Redachef view
+
+     public function getNomDUsage(): string {
         return $this->getSalarieEtEntreprise()->getNomDUsage();
     }
 
@@ -195,10 +191,9 @@ class Redachef
         return $this->getMagazine()->getCodeAffaire();
     }
 
-    public function getRacine(): string {
-        return $this->getMagazine()->getTitre()->getRacine();
+    public function getRacine(): ?string {
+        return $this->getMagazine()->getTitre()?->getRacine();
     }
 
     
-   
 }

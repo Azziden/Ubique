@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+
+use App\Entity\Titre;
+
 use App\Entity\Redachef;
 use App\Entity\Iconographique;
 use Doctrine\ORM\Mapping as ORM;
@@ -36,12 +39,6 @@ class Magazine
     #[ORM\Column(type: 'string', length: 127, nullable: true)]
     private $titre_en_clair;
 
-    #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Iconographique::class)]
-    private $iconographiques;
-
-    #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Redachef::class)]
-    private $redachefs;
-
     #[ORM\Column(type: 'float', length: 63, nullable: true)]
     private $nb_de_page_redactionnelle;
 
@@ -49,13 +46,20 @@ class Magazine
     #[ORM\JoinColumn(nullable: true)]
     private $titre;
 
-    
+    #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Redachef::class)]
+    private $redachefs;
+
+    #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Iconographique::class)]
+    private $iconographiques;
+
 
     public function __construct()
     {
-        $this->redachefs = new ArrayCollection();
         $this->iconographiques = new ArrayCollection();
+        $this->redachefs = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -123,6 +127,46 @@ class Magazine
     }
 
     /**
+     * Get the value of nb_de_page_redactionnelle
+     */ 
+    public function getNbDePageRedactionnelle() : ?float
+    {
+        return $this->nb_de_page_redactionnelle;
+    }
+
+    /**
+     * Set the value of nb_de_page_redactionnelle
+     *
+     * @return  self
+     */ 
+    public function setNbDePageRedactionnelle(?float $nb_de_page_redactionnelle): self
+    {
+        $this->nb_de_page_redactionnelle = $nb_de_page_redactionnelle;
+
+        return $this;
+    }
+
+    public function getTitre(): ?Titre
+    {
+        return $this->titre;
+    }
+
+    public function setTitre(?Titre $titre): self
+    {
+        $this->titre = $titre;
+
+        return $this;
+    }
+
+    public function getRacine(): ?string {
+        return $this->getTitre()?->getRacine();
+    }
+
+    public function __toString(): string {
+        return "[" . $this->code_affaire . "] " . $this->code_affaire_en_clair;
+    }
+
+    /**
      * @return Collection<int, Redachef>
      */
     public function getRedachefs(): Collection
@@ -182,44 +226,8 @@ class Magazine
         return $this;
     }
 
-    /**
-     * Get the value of nb_de_page_redactionnelle
-     */ 
-    public function getNbDePageRedactionnelle() : ?float
-    {
-        return $this->nb_de_page_redactionnelle;
-    }
 
-    /**
-     * Set the value of nb_de_page_redactionnelle
-     *
-     * @return  self
-     */ 
-    public function setNbDePageRedactionnelle(?float $nb_de_page_redactionnelle): self
-    {
-        $this->nb_de_page_redactionnelle = $nb_de_page_redactionnelle;
-
-        return $this;
-    }
-
-    public function getTitre(): ?Titre
-    {
-        return $this->titre;
-    }
-
-    public function setTitre(?Titre $titre): self
-    {
-        $this->titre = $titre;
-
-        return $this;
-    }
-
-    public function getRacine(): ?string {
-        return $this->getTitre()?->getRacine();
-    }
-
-    public function __toString(): string {
-        return "[" . $this->code_affaire . "] " . $this->code_affaire_en_clair;
-    }
+ 
+    
 
 }
