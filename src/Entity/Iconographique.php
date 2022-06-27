@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Magazine;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\SalarieEtEntreprise;
 use App\Repository\IconographiqueRepository;
@@ -27,11 +28,9 @@ class Iconographique
     private $montant;
 
     #[ORM\ManyToOne(targetEntity: Magazine::class, inversedBy: 'iconographiques')]
-    #[ORM\JoinColumn(nullable: false)]
     private $magazine;
 
-    #[ORM\OneToOne(inversedBy: 'iconographique', targetEntity: SalarieEtEntreprise::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: SalarieEtEntreprise::class, inversedBy: 'iconographiques')]
     private $salarie_et_entreprise;
 
     public function getId(): ?int
@@ -87,12 +86,12 @@ class Iconographique
         return $this;
     }
 
-    public function getMagazine(): ?magazine
+    public function getMagazine(): ?Magazine
     {
         return $this->magazine;
     }
 
-    public function setMagazine(?magazine $magazine): self
+    public function setMagazine(?Magazine $magazine): self
     {
         $this->magazine = $magazine;
 
@@ -104,14 +103,12 @@ class Iconographique
         return $this->salarie_et_entreprise;
     }
 
-    public function setSalarieEtEntreprise(SalarieEtEntreprise $salarie_et_entreprise): self
+    public function setSalarieEtEntreprise(?SalarieEtEntreprise $salarie_et_entreprise): self
     {
         $this->salarie_et_entreprise = $salarie_et_entreprise;
 
         return $this;
     }
-    
-    
     // SalarieEtEntreprise attributes for Dashboard and Iconographique view
 
     public function getNomDUsage(): string {
