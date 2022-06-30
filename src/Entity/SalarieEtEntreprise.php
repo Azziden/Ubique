@@ -26,22 +26,22 @@ class SalarieEtEntreprise
     #[ORM\Column(type: 'string', length: 127)]
     private $nom_compta;
 
-    #[ORM\Column(type: 'string', length: 63)]
+    #[ORM\Column(type: 'string', length: 63, nullable: true)]
     private $statut;
 
-    #[ORM\Column(type: 'string', length: 63)]
+    #[ORM\Column(type: 'string', length: 63, nullable: true)]
     private $type;
 
     #[ORM\Column(type: 'float', nullable: true)]
     private $droit_auteur;
 
-    #[ORM\Column(type: 'string', length: 63)]
+    #[ORM\Column(type: 'string', length: 63, nullable: true)]
     private $abattement_30;
 
-    #[ORM\OneToMany(mappedBy: 'salarie_et_entreprise', targetEntity: Redachef::class)]
+    #[ORM\OneToMany(mappedBy: 'salarie_et_entreprise', targetEntity: Redachef::class, cascade:["remove"])]
     private $redachefs;
 
-    #[ORM\OneToMany(mappedBy: 'salarie_et_entreprise', targetEntity: Iconographique::class)]
+    #[ORM\OneToMany(mappedBy: 'salarie_et_entreprise', targetEntity: Iconographique::class, cascade:["remove"])]
     private $iconographiques;
 
     public function __construct()
