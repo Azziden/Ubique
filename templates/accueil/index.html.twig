@@ -3,6 +3,8 @@
 {% block title %}Accueil Ubique
 {% endblock %}
 {% block body %}
+	{% if app.user and app.user.isVerified == false %}{% endif %}
+	{% include '_partials/_flash.html.twig' %}
 
 	<div class="container accueil-bg m-auto">
 
@@ -68,11 +70,10 @@
 							</tr>
 
 						{% endfor %}
-
 					</tbody>
-				</tbody>
-			</table>
-			{{ knp_pagination_render(magazine) }}
-		</nav>
-	{% endif %}
-</div>{% endblock %}
+				</table>
+				{{ knp_pagination_render(magazine) }}
+			</nav>
+		{% endif %}
+	</div>
+{% endblock %}
