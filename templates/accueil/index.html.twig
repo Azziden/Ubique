@@ -3,7 +3,6 @@
 {% block title %}Accueil Ubique
 {% endblock %}
 {% block body %}
-	{% if app.user and app.user.isVerified == false %}{% endif %}
 	{% include '_partials/_flash.html.twig' %}
 
 	<div class="container accueil-bg m-auto">

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use DateTimeZone;
 use Monolog\DateTimeImmutable;
 
 
@@ -22,7 +23,7 @@ class JWTService
     public function generate(array $header, array $payload, string $secret, int $validity = 10800): string
     {
         if($validity > 0){
-            $now = new DateTimeImmutable(128);// 128 Europe DateTime
+            $now = new DateTimeImmutable(false);// 128 Europe DateTime
             $exp = $now->getTimestamp() + $validity;
     
             $payload['iat'] = $now->getTimestamp();
@@ -93,11 +94,11 @@ class JWTService
     
     public function isExpired(string $token): bool
     {
-        $payloa = $this->getPayload($token);
+        $payload = $this->getPayload($token);
 
-        $now = new DateTimeImmutable();
+        $now = new DateTimeImmutable(false);
 
-        return $payload['exp'] < $now->getTimestramp();
+        return $payload['exp'] < $now->getTimestamp();
     }
 
     //Verify Token's signature

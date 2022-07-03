@@ -1,11 +1,14 @@
 {% for label, messages in app.flashes %}
 	{% for message in messages %}
-
-		<div class="alert alert-warning alert-dismissable" role="alert">
-			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
-			<div class="alert-message">
-				<strong>Votre compte n'est pas activé</strong>,<a href="{{ path('resend_verif') }}">renvoyer le lien d'activation</a>
-			</div>
+		<div class="alert alert-{{label}} alert-dismissible fade show" role="alert">
+			{{message}}
 		</div>
 	{% endfor %}
 {% endfor %}
+
+{% if app.user and app.user.isVerified == false %}
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		<strong>Votre compte n'est pas activé</strong>,
+		<a href="{{ path('resend_verif') }}">renvoyer le lien d'activation</a>
+	</div>
+{% endif %}
