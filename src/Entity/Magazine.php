@@ -128,7 +128,7 @@ class Magazine
 
     /**
      * Get the value of nb_de_page_redactionnelle
-     */ 
+     */
     public function getNbDePageRedactionnelle() : ?float
     {
         return $this->nb_de_page_redactionnelle;
@@ -138,7 +138,7 @@ class Magazine
      * Set the value of nb_de_page_redactionnelle
      *
      * @return  self
-     */ 
+     */
     public function setNbDePageRedactionnelle(?float $nb_de_page_redactionnelle): self
     {
         $this->nb_de_page_redactionnelle = $nb_de_page_redactionnelle;
@@ -227,7 +227,7 @@ class Magazine
     }
 
 
- 
-    
+
+
 
 }

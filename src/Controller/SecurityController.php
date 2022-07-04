@@ -6,8 +6,10 @@ use App\Service\SendMailService;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ResetPasswordRequestFormType;
+use App\Form\ResetPasswordFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -67,12 +69,12 @@ class SecurityController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
 
-                //Generate q link to reset the password
+                //Generate a link to reset the password
                 $url = $this->generateUrl('reset_pass', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-                
+
                 //Create mail data for the user
                 $context = compact('url', 'user');
-                
+
                 //Send Mail
                 $mail->send(
                     'ubiquecp@gmail.com',
@@ -102,8 +104,48 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/oubli-pass/{token}', name:'reset_pass')]
-    public function resetPass(): Response
+    public function resetPass(string $token,
+      Request $request,
+      UserRepository $userRepository,
+      EntityManagerInterface $entityManager,
+      UserPasswordHasherInterface $passwordHasher
+    ): Response
     {
+        //Verify if we have the token on our db
+        $user = $userRepository->findOneByResetToken($token);
+
+        if($user)
+        {
+            $form = $this->createForm(ResetPasswordFormType::class);
+
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid())
+            {
+                //Delete token
+                $user->setResetToken('');
+                $user->setPassword(
+                    $passwordHasher->hashPassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Mot de passe changé avec succès');
+                return $this->redirectToRoute('app_login');
+
+
+            }
+
+            return $this->render('security/reset_password.html.twig',
+            [
+                'passForm' => $form->createView()
+            ]);
+        }
+        $this->addFlash('danger', 'Jeton invalide');
+        return $this->redirectToRoute('app_login');
 
     }
 

@@ -1,9 +1,7 @@
 {% for label, messages in app.flashes %}
 	{% for message in messages %}
 		<div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
-			{% if app.user and app.user.isVerified == true %}
-				{{message}}
-			{% endif %}
+			{{message}}
 		</div>
 	{% endfor %}
 {% endfor %}
