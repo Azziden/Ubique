@@ -44,10 +44,14 @@ class SalarieEtEntreprise
     #[ORM\OneToMany(mappedBy: 'salarie_et_entreprise', targetEntity: Iconographique::class, cascade:["remove"])]
     private $iconographiques;
 
+    #[ORM\OneToMany(mappedBy: 'salarie_et_entreprise', targetEntity: PigisteClient::class)]
+    private $pigisteClients;
+
     public function __construct()
     {
         $this->redachefs = new ArrayCollection();
         $this->iconographiques = new ArrayCollection();
+        $this->pigisteClients = new ArrayCollection();
     }
 
   
@@ -212,6 +216,36 @@ class SalarieEtEntreprise
             // set the owning side to null (unless already changed)
             if ($iconographique->getSalarieEtEntreprise() === $this) {
                 $iconographique->setSalarieEtEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PigisteClient>
+     */
+    public function getPigisteClients(): Collection
+    {
+        return $this->pigisteClients;
+    }
+
+    public function addPigisteClient(PigisteClient $pigisteClient): self
+    {
+        if (!$this->pigisteClients->contains($pigisteClient)) {
+            $this->pigisteClients[] = $pigisteClient;
+            $pigisteClient->setSalarieEtEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removePigisteClient(PigisteClient $pigisteClient): self
+    {
+        if ($this->pigisteClients->removeElement($pigisteClient)) {
+            // set the owning side to null (unless already changed)
+            if ($pigisteClient->getSalarieEtEntreprise() === $this) {
+                $pigisteClient->setSalarieEtEntreprise(null);
             }
         }
 

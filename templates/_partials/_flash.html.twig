@@ -1,11 +1,10 @@
 {% for label, messages in app.flashes %}
 	{% for message in messages %}
-		<div class="alert alert-{{label}} alert-dismissible fade show" role="alert">
+		<div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
 			{{message}}
 		</div>
 	{% endfor %}
 {% endfor %}
-
 {% if app.user and app.user.isVerified == false %}
 	<div class="alert alert-warning alert-dismissible fade show" role="alert">
 		<strong>Votre compte n'est pas activé</strong>,

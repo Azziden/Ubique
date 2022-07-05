@@ -31,15 +31,15 @@ class MagazineRepository extends ServiceEntityRepository
             $query->where('m.code_affaire LIKE :mots')
                 ->orWhere('m.code_affaire_en_clair LIKE :mots')
                 ->setParameter('mots',  "%" .$mots . "%");
-                
+
 
         }
-        
+
         return $query->getQuery()->getResult();
 
 
     }
-    
+
 
     public function add(Magazine $entity, bool $flush = false): void
     {
@@ -59,7 +59,7 @@ class MagazineRepository extends ServiceEntityRepository
         }
     }
 
-    
+
 
 //    /**
 //     * @return Magazine[] Returns an array of Magazine objects

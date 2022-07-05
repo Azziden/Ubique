@@ -55,7 +55,7 @@ class RegistrationController extends AbstractController
 
             // On envoie un mail
             $mail->send(
-                'no-reply@ubique.fr',
+                'ubiquecp@gmail.com',
                 $user->getEmail(),
                 'Activation de votre compte sur le site Ubique',
                 'register',
@@ -139,7 +139,7 @@ class RegistrationController extends AbstractController
 
         // On envoie un mail
         $mail->send(
-            'no-reply@ubique.fr',
+            'ubiquecp@gmail.com',
             $user->getEmail(),
             'Activation de votre compte sur le site Ubique',
             'register',

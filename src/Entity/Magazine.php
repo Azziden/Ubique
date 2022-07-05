@@ -52,11 +52,15 @@ class Magazine
     #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Iconographique::class)]
     private $iconographiques;
 
+    #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: PigisteClient::class)]
+    private $pigisteClients;
+
 
     public function __construct()
     {
         $this->iconographiques = new ArrayCollection();
         $this->redachefs = new ArrayCollection();
+        $this->pigisteClients = new ArrayCollection();
     }
 
 
@@ -128,7 +132,7 @@ class Magazine
 
     /**
      * Get the value of nb_de_page_redactionnelle
-     */ 
+     */
     public function getNbDePageRedactionnelle() : ?float
     {
         return $this->nb_de_page_redactionnelle;
@@ -138,7 +142,7 @@ class Magazine
      * Set the value of nb_de_page_redactionnelle
      *
      * @return  self
-     */ 
+     */
     public function setNbDePageRedactionnelle(?float $nb_de_page_redactionnelle): self
     {
         $this->nb_de_page_redactionnelle = $nb_de_page_redactionnelle;
@@ -226,8 +230,38 @@ class Magazine
         return $this;
     }
 
+    /**
+     * @return Collection<int, PigisteClient>
+     */
+    public function getPigisteClients(): Collection
+    {
+        return $this->pigisteClients;
+    }
 
- 
-    
+    public function addPigisteClient(PigisteClient $pigisteClient): self
+    {
+        if (!$this->pigisteClients->contains($pigisteClient)) {
+            $this->pigisteClients[] = $pigisteClient;
+            $pigisteClient->setMagazine($this);
+        }
+
+        return $this;
+    }
+
+    public function removePigisteClient(PigisteClient $pigisteClient): self
+    {
+        if ($this->pigisteClients->removeElement($pigisteClient)) {
+            // set the owning side to null (unless already changed)
+            if ($pigisteClient->getMagazine() === $this) {
+                $pigisteClient->setMagazine(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+
 
 }
