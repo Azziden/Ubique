@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\PigisteClient;
 use App\Entity\User;
 use App\Entity\Titre;
 use App\Entity\Magazine;
@@ -54,6 +55,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Magazines', 'fa fa-tags', Magazine::class),
             MenuItem::linkToCrud('iconographiques', 'fa fa-tags', Iconographique::class),
             MenuItem::linkToCrud('Redachef', 'fa fa-tags', Redachef::class),
+            MenuItem::linkToCrud('PigisteClient', 'fa fa-tags', PigisteClient::class),
             MenuItem::linkToCrud('Salaries et Entreprises', 'fa fa-tags', SalarieEtEntreprise::class),
             MenuItem::linkToCrud('Titres', 'fa fa-tags', Titre::class),
            

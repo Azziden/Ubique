@@ -9,14 +9,19 @@
 		<h1>{{ magazine.codeAffaireEnClair }}</h1>
 		<hr>
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<a href="{{ path('app_iconographique', {'magazine': magazine.id}) }}" class="btn btn-primary w-100">
 					Iconographique
 				</a>
 			</div>
-			<div class="col-md-6 mb-3">
+			<div class="col-md-4 mb-3">
 				<a href="{{ path('app_redachef', {'magazine': magazine.id}) }}" class="btn btn-primary w-100">
 					Redachef
+				</a>
+			</div>
+			<div class="col-md-4 mb-3">
+				<a href="{{ path('app_pigiste_client', {'magazine': magazine.id}) }}" class="btn btn-primary w-100">
+					Pigiste Client
 				</a>
 			</div>
 			<h3>Attributes</h3>
