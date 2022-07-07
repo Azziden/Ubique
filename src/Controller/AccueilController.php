@@ -4,12 +4,12 @@ namespace App\Controller;
 
 
 use App\Entity\Magazine;
-use App\Controller\AccueilController;
+
 use App\Repository\MagazineRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
