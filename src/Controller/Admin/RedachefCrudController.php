@@ -36,10 +36,10 @@ class RedachefCrudController extends AbstractCrudController
             // We add all the extra fields here
 
             // This associated field is only gonna be visible on the forms (edit & new)
-            AssociationField::new("salarie_et_entreprise")->onlyOnForms()->autocomplete(),
+            AssociationField::new("salarie_et_entreprise")->onlyOnForms()->autocomplete()->setRequired(true),
 
             // This associated field is only gonna be visible on the forms (edit & new)
-            AssociationField::new("magazine")->onlyOnForms()->autocomplete(),
+            AssociationField::new("magazine")->onlyOnForms()->autocomplete()->setRequired(true),
 
             // And all the text fields are only gonna be visible on the index page
             TextField::new("nom_d_usage", "Nom d'usage")->onlyOnIndex(),
