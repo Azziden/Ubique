@@ -6,7 +6,7 @@
 
 {% block body %}
 	<div class="container mt-4 ">
-		<h1>{{ magazine.codeAffaireEnClair }} <button type="button" class="btn btn-link" onclick="history.back()">Page précédente</button></h1>
+		<h1>{{ magazine.codeAffaireEnClair }}</h1>
 		<hr>
 		<div class="row">
 			<div class="col-md-4">
@@ -33,7 +33,17 @@
 							<input class="form-control" type="text" value="{{ magazine.dateDeParution }}" placeholder="dd/mm/aaaa" id="date_de_parution" aria-label="Date de parution" name="date_de_parution" required {% if magazine.dateDeParution %} disabled {% endif %}>
 						</div>
 						<div class="col-md-3">
-							<button type="submit" class="btn btn-success w-100" {% if magazine.dateDeParution %} disabled {% endif %}>Enregistrer</button>
+							<button type="submit" class="btn btn-success mb-4 w-100" {% if magazine.dateDeParution %} disabled {% endif %}>Enregistrer</button>
+						</div>
+					</form>
+
+					<form method="post" class="row">
+						<label for="date_de_bouclage" class="col-md-3  col-form-label">Date de Bouclage</label>
+						<div class="col-md-6">
+							<input class="form-control" type="text" value="{{ magazine.dateDeBouclage }}" placeholder="dd/mm/aaaa" id="date_de_bouclage" aria-label="Date de bouclage" name="date_de_bouclage" required {% if magazine.dateDeBouclage %} disabled {% endif %}>
+						</div>
+						<div class="col-md-3">
+							<button type="submit" class="btn btn-success w-100" {% if magazine.dateDeBouclage %} disabled {% endif %}>Enregistrer</button>
 						</div>
 					</form>
 				</div>

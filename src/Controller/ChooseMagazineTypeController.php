@@ -25,6 +25,11 @@ class ChooseMagazineTypeController extends AbstractController
             $magazine->setDateDeParution($date);
             $entityManager->flush();
         }
+        $date = $request->get('date_de_bouclage');
+        if ($date) {
+            $magazine->setDateDeBouclage($date);
+            $entityManager->flush();
+        }
             
 
         return $this->render('choose_magazine_type/index.html.twig', [
