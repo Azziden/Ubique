@@ -21,8 +21,9 @@
 			<div class="mb-3 Magazine">
 				<h3>
 					</a>{{magazine.codeAffaireEnClair}}
-					<button type="button" class="btn btn-link" onclick="history.back()">Page précédente</button>
 				</h3>
+				<button type="button" class="btn btn-link"><a class="nav-link" href="{{ path('app_choose_magazine_type', {'magazine': magazine.id}) }}">Page précédante
+				</a></button>
 			</div>
 			<div class="col">
 				<div class="col-md-12">
