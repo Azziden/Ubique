@@ -188,9 +188,11 @@ $("#data-form").on('submit', function (e) {
     const table = document.getElementById('table');
 
     for (const row of table.rows) {
-        if (row.getAttribute('data-new')) {
+        let dataId = row.getAttribute('data-id');
+
+        if (row.getAttribute('data-new') && dataId !== null) {
             const rowData = {
-                salarie_id: parseInt(row.getAttribute('data-id')),
+                salarie_id: parseInt(dataId),
             };
 
             for (const cell of row.cells) {
@@ -210,6 +212,10 @@ $("#data-form").on('submit', function (e) {
 
             newTableData.push(rowData);
         }
+    }
+
+    if (newTableData.length === 0) {
+        return;
     }
 
     document.getElementById('data-input').value = JSON.stringify(newTableData);
@@ -263,4 +269,9 @@ function parseInputValue(input, headCell) {
     }
 
     return null;
+}
+
+function montantCalculator(){
+
+
 }
