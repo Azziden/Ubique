@@ -30,6 +30,7 @@ class MagazineRepository extends ServiceEntityRepository
         if($mots != null){
             $query->where('m.code_affaire LIKE :mots')
                 ->orWhere('m.code_affaire_en_clair LIKE :mots')
+                ->orderBy('m.id', 'DESC')
                 ->setParameter('mots',  "%" .$mots . "%");
 
 
