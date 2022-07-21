@@ -74,8 +74,16 @@
 						<button class="btn btn-success float-right" type=" submit">
 							Enregistrer
 						</button>
-					</div>
+					</form>
 				</div>
+			</div>
 			{% endif %}
+		{% if is_granted('ROLE_ADMIN') %}
+
+			<button type="button" class="btn btn-link"><a class="nav-link">« Télécharger le document csv
+				</a></button>
+
+		{% endif %}
+
 		</div>
 	{% endblock %}
