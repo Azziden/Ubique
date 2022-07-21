@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{magazine.codeAffaireEnClair}}
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="/css/iconographique.css">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
+{% endblock %}
+{% block javascripts %}
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<script src="{{ asset('javascript/app.js') }}" defer></script>
+{% endblock %}
+{% block body %}
+
+	<div class="container accueil-bg m-auto">
+
+		{% if app.user %}
+
+			<div class="mb-3 Magazine">
+				<h3>
+					{{magazine.codeAffaireEnClair}}
+				</h3>
+				<button type="button" class="btn btn-link"><a class="nav-link" href="{{ path('app_choose_magazine_type', {'magazine': magazine.id}) }}">« Page précédante
+					</a></button>
+			</div>
+			<div class="container" style="position: relative; padding: 0">
+				<div class="edit-tooltip" id="edit-tooltip" style="display: none"></div>
+				<h1 class='text-center'>Iconographique</h1>
+				<input id="autocomplete-url" type="hidden" value="{{ path('app_salarie_et_entreprise_search') }}">
+				<table class="table table-bordered table-dark" id="table">
+					<thead>
+						<tr>
+							<th scope="col" data-column="nom_d_usage">Nom d'usage</th>
+							<th scope="col" data-collapse-to="0" data-column="nom_compta">Nom compta</th>
+							<th scope="col" data-collapse-to="0" data-column="statut">Statut</th>
+							<th scope="col" data-collapse-to="0" data-column="type">Type</th>
+							<th scope="col" data-collapse-to="0" data-column="droit_auteur">Droit d'auteur</th>
+							<th scope="col" data-type="string" data-max-length="63" data-name="article">Article</th>
+							<th scope="col" data-type="int" data-max-length="11" data-name="nb_photo">Nombre de photo</th>
+							<th scope="col" data-type="int" data-max-length="11" data-name="prix_photo">Prix par photo</th>
+							<th scope="col" data-type="double" data-required="true" data-name="montant">Montant</th>
+
+						</tr>
+					</thead>
+					<tbody>
+
+
+						{% for aIconographique in iconographique %}
+							<tr>
+								<td>{{ aIconographique.nomDUsage }}</td>
+								<td>{{ aIconographique.nomCompta }}</td>
+								<td>{{ aIconographique.statut }}</td>
+								<td>{{ aIconographique.type }}</td>
+								<td>{{ aIconographique.salarieEtEntreprise.droitAuteur }}</td>
+								<td>{{ aIconographique.article }}</td>
+								<td>{{ aIconographique.nbPhoto }}</td>
+								<td>{{ aIconographique.prixPhoto }}</td>
+								<td>{{ aIconographique.montant }}</td>
+							</tr>
+						{% endfor %}
+						<tr class="text-center add-row" id="add_row">
+							<td colspan="9">
+								<span>+</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					<form method="post" id="data-form" action="{{ path('app_iconographique', {'magazine': magazine.id}) }}">
+						<input type="hidden" name="data" id="data-input">
+
+						<button class="btn btn-success float-right" type=" submit">
+							Enregistrer
+						</button>
+					</form>
+				</div>
+			</div>
+			{% endif %}
+		{% if is_granted('ROLE_ADMIN') %}
+
+			<button type="button" class="btn btn-link"><a class="nav-link">« Télécharger le document csv
+				</a></button>
+
+		{% endif %}
+		</div>
+	{% endblock %}
