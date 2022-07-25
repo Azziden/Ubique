@@ -15,22 +15,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class IconographiqueController extends AbstractController
 {
     #[Route('/magazine/{magazine}/iconographique', name: 'app_iconographique')]
-        public function index(IconographiqueRepository $iconoRepo, Request $request,ManagerRegistry $doctrine, Magazine $magazine, SalarieEtEntrepriseRepository $salarieRepo )
-        {
-            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-            $data = $request->get('data');
-            if ($data != null) {
-                $obj = json_decode($data);
-                
-                $entityManager = $doctrine->getManager();
-    
-                foreach ($obj as $item) {
-                    $salarie = $salarieRepo->find($item->salarie_id);
-    
-                    if ($salarie == null) {
-                        continue;
-                    }
-                    
+    public function index(IconographiqueRepository $iconoRepo, Request $request, ManagerRegistry $doctrine, Magazine $magazine, SalarieEtEntrepriseRepository $salarieRepo)
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $data = $request->get('data');
+        if ($data != null) {
+            $obj = json_decode($data);
+
+            $entityManager = $doctrine->getManager();
+
+            foreach ($obj as $item) {
+                $salarie = $salarieRepo->find($item->salarie_id);
+
+                if ($salarie == null) {
+                    continue;
+                }
+
                 $iconographique = new Iconographique();
                 $iconographique->setSalarieEtEntreprise($salarie);
                 $iconographique->setMagazine($magazine);
@@ -41,16 +41,16 @@ class IconographiqueController extends AbstractController
 
                 $entityManager->persist($iconographique);
 
-                }
-
-                $entityManager->flush();
             }
-            $iconographique = $magazine->getIconographiques();
-            
-            return $this->render('iconographique/index.html.twig', [
-                'iconographique' => $iconographique,
-                'magazine' => $magazine,
-                
-            ]);
+
+            $entityManager->flush();
         }
+        $iconographique = $magazine->getIconographiques();
+
+        return $this->render('iconographique/index.html.twig', [
+            'iconographique' => $iconographique,
+            'magazine' => $magazine,
+
+        ]);
+    }
 }
