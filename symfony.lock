@@ -86,6 +86,9 @@
     "egulias/email-validator": {
         "version": "3.2"
     },
+    "ezyang/htmlpurifier": {
+        "version": "v4.14.0"
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.12"
     },
@@ -98,6 +101,15 @@
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
+    "maennchen/zipstream-php": {
+        "version": "2.2.1"
+    },
+    "markbaker/complex": {
+        "version": "3.0.1"
+    },
+    "markbaker/matrix": {
+        "version": "3.0.0"
+    },
     "masterminds/html5": {
         "version": "2.7.5"
     },
@@ -106,6 +118,9 @@
     },
     "myclabs/deep-copy": {
         "version": "1.11.0"
+    },
+    "myclabs/php-enum": {
+        "version": "1.8.3"
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
@@ -127,6 +142,9 @@
     },
     "phpmailer/phpmailer": {
         "version": "v6.6.3"
+    },
+    "phpoffice/phpspreadsheet": {
+        "version": "1.24.1"
     },
     "phpspec/prophecy": {
         "version": "v1.15.0"
@@ -172,11 +190,23 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
+    "psr/http-client": {
+        "version": "1.0.1"
+    },
+    "psr/http-factory": {
+        "version": "1.0.1"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/link": {
         "version": "2.0.1"
     },
     "psr/log": {
         "version": "3.0.0"
+    },
+    "psr/simple-cache": {
+        "version": "2.0.0"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
