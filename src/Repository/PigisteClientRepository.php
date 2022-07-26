@@ -39,6 +39,16 @@ class PigisteClientRepository extends ServiceEntityRepository
         }
     }
 
+    public function getForExport() {
+        return $this->createQueryBuilder('p')
+            //"Code Affaire", "Nom d'usage", "Article", "Signe", "Nb de feuillet", "Forfait", "Prix au feuillet", "Montant", "Montant total brut", "Montant charge"
+            ->select('m.code_affaire, see.nom_d_usage, p.article, p.signe, p.nb_de_feuillet, p.forfait, p.prix_au_feuillet, p.montant, p.montant_total_brut, p.montant_charge')
+            ->innerJoin('p.magazine', 'm')
+            ->innerJoin('p.salarie_et_entreprise', 'see')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return PigisteClient[] Returns an array of PigisteClient objects
 //     */

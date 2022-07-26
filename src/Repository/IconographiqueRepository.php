@@ -39,6 +39,15 @@ class IconographiqueRepository extends ServiceEntityRepository
         }
     }
 
+    public function getForExport() {
+        return $this->createQueryBuilder('i')
+            ->select('m.code_affaire, see.nom_d_usage, i.article, i.nb_photo, i.prix_photo, i.montant')
+            ->innerJoin('i.magazine', 'm')
+            ->innerJoin('i.salarie_et_entreprise', 'see')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Iconographique[] Returns an array of Iconographique objects
 //     */
