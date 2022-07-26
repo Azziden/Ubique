@@ -74,11 +74,5 @@
 				{{ knp_pagination_render(magazine) }}
 			</nav>
 		{% endif %}
-		{% if is_granted('ROLE_ADMIN') %}
-
-			<button type="button" class="btn btn-link"><a class="nav-link">« Télécharger le document csv
-				</a></button>
-
-		{% endif %}
 	</div>
 {% endblock %}
