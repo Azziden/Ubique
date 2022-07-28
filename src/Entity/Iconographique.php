@@ -18,10 +18,10 @@ class Iconographique
     #[ORM\Column(type: 'string', length: 127, nullable: true)]
     private $article;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $nb_photo;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $prix_photo;
 
     #[ORM\Column(type: 'float')]
@@ -55,7 +55,7 @@ class Iconographique
         return $this->nb_photo;
     }
 
-    public function setNbPhoto(int $nb_photo): self
+    public function setNbPhoto(?int $nb_photo): self
     {
         $this->nb_photo = $nb_photo;
 
@@ -67,7 +67,7 @@ class Iconographique
         return $this->prix_photo;
     }
 
-    public function setPrixPhoto(int $prix_photo): self
+    public function setPrixPhoto(?int $prix_photo): self
     {
         $this->prix_photo = $prix_photo;
 
