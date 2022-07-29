@@ -31,17 +31,17 @@ class ExportFormType extends AbstractType
 
         $builder
             ->add('day', ChoiceType::class, [
-                'placeholder' => 'Enter day',
+                'placeholder' => "Entrez le jour",
                 'required' => false,
                 'choices' => $this->getRangeArray(1, 31, true)
             ])
             ->add('month', ChoiceType::class, [
-                'placeholder' => 'Enter month',
+                'placeholder' => "Entrez le mois",
                 'required' => false,
                 'choices' => $this->getRangeArray(1, 12, true)
             ])
             ->add('year', ChoiceType::class, [
-                'placeholder' => 'Enter year',
+                'placeholder' => "Entrez l'année",
                 'required' => false,
                 'choices' => array_reverse($this->getRangeArray($year - 5, $year), true)
             ])

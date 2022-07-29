@@ -80,13 +80,13 @@ class ExporterController extends AbstractController
             switch ($type) {
                 case ExportFormType::ICONOGRAPHIE_KEY:
                     $repository = $iconographiqueRepository;
-                    $name = 'iconographique';
+                    $name = 'iconographie';
                     $columnKeys = ["Code Affaire", "Nom d'usage", "Date de parution", "Article", "Nb photo", "Prix photo", "Montant"];
 
                     break;
                 case ExportFormType::REDACHEF_KEY:
                     $repository = $redachefRepository;
-                    $name = 'redachef';
+                    $name = 'redac_chef';
                     $columnKeys = ["Code Affaire", "Nom d'usage", "Date de parution", "Article", "signe", "Nb de feuillet", "Forfait", "Prix au feuillet", "Montant", "Montant total brut", "Montant charge"];
 
                     break;
