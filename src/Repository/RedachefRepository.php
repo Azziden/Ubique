@@ -39,11 +39,20 @@ class RedachefRepository extends ServiceEntityRepository
         }
     }
 
-    public function getForExport() {
-        return $this->createQueryBuilder('r')
-            ->select('m.code_affaire, see.nom_d_usage, r.article, r.signe, r.nb_de_feuillet, r.forfait, r.prix_au_feuillet, r.montant, r.montant_total_brut, r.montant_charge')
+    public function getForExport($date)
+    {
+        $query = $this->createQueryBuilder('r')
+            ->select('m.code_affaire, see.nom_d_usage, m.date_de_parution, r.article, r.signe, r.nb_de_feuillet, r.forfait, r.prix_au_feuillet, r.montant, r.montant_total_brut, r.montant_charge')
             ->innerJoin('r.magazine', 'm')
-            ->innerJoin('r.salarie_et_entreprise', 'see')
+            ->innerJoin('r.salarie_et_entreprise', 'see');
+
+        if ($date !== null) {
+            $query = $query
+                ->where('m.date_de_parution LIKE :date')
+                ->setParameter("date", $date);
+        }
+
+        return $query
             ->getQuery()
             ->getResult();
     }

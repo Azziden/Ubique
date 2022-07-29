@@ -43,6 +43,17 @@ class ExporterController extends AbstractController
         return $spreadsheet;
     }
 
+    protected function getDateParts($data, $key, $parts = []): array
+    {
+        if (isset($data[$key])) {
+            $parts[] = $data[$key];
+        } else {
+            $parts[] = $key === 'year' ? '____' : '__';
+        }
+
+        return $parts;
+    }
+
     #[Route('/export', name: 'export')]
     public function exportAction(Request $request, IconographiqueRepository $iconographiqueRepository, RedachefRepository $redachefRepository, PigisteClientRepository $pigisteClientRepository)
     {
@@ -55,23 +66,34 @@ class ExporterController extends AbstractController
             $data = $form->getData();
             $type = $data['type'];
 
+            $dateParts = $this->getDateParts($data, 'day');
+            $dateParts = $this->getDateParts($data, 'month', $dateParts);
+            $dateParts = $this->getDateParts($data, 'year', $dateParts);
+
+            $date = implode('/', $dateParts);
+
+            // No date selected
+            if ($date === '__/__/____') {
+                $date = null;
+            }
+
             switch ($type) {
                 case ExportFormType::ICONOGRAPHIE_KEY:
                     $repository = $iconographiqueRepository;
                     $name = 'iconographique';
-                    $columnKeys = ["Code Affaire", "Nom d'usage", "Article", "Nb photo", "Prix photo", "Montant"];
+                    $columnKeys = ["Code Affaire", "Nom d'usage", "Date de parution", "Article", "Nb photo", "Prix photo", "Montant"];
 
                     break;
                 case ExportFormType::REDACHEF_KEY:
                     $repository = $redachefRepository;
                     $name = 'redachef';
-                    $columnKeys = ["Code Affaire", "Nom d'usage", "Article", "signe", "Nb de feuillet", "Forfait", "Prix au feuillet", "Montant", "Montant total brut", "Montant charge"];
+                    $columnKeys = ["Code Affaire", "Nom d'usage", "Date de parution", "Article", "signe", "Nb de feuillet", "Forfait", "Prix au feuillet", "Montant", "Montant total brut", "Montant charge"];
 
                     break;
                 case ExportFormType::PIGISTE_KEY:
                     $repository = $pigisteClientRepository;
                     $name = 'pigiste_client';
-                    $columnKeys = ["Code Affaire", "Nom d'usage", "Article", "signe", "Nb de feuillet", "Forfait", "Prix au feuillet", "Montant", "Montant total brut", "Montant charge"];
+                    $columnKeys = ["Code Affaire", "Nom d'usage", "Date de parution", "Article", "signe", "Nb de feuillet", "Forfait", "Prix au feuillet", "Montant", "Montant total brut", "Montant charge"];
 
                     break;
                 default:
@@ -87,7 +109,7 @@ class ExporterController extends AbstractController
 
             $spreadsheet = $this->createSpreadsheet(
                 $columnKeys,
-                $repository->getForExport()
+                $repository->getForExport($date)
             );
 
             $contentType = 'text/xlsx';

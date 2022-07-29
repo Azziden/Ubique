@@ -13,9 +13,38 @@ class ExportFormType extends AbstractType
     public const ICONOGRAPHIE_KEY = 'iconographie';
     public const PIGISTE_KEY = 'pigiste_fourni_par_client';
 
+    protected function getRangeArray($start, $end, $padLeft = false): array {
+        $arr = [];
+
+        for ($i = $start; $i <= $end; $i++) {
+            $val = str_pad(strval($i), $padLeft ? 2 : 0, '0', STR_PAD_LEFT);
+
+            $arr[$val] = $val;
+        }
+
+        return $arr;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $year = intval(date('Y'));
+
         $builder
+            ->add('day', ChoiceType::class, [
+                'placeholder' => 'Enter day',
+                'required' => false,
+                'choices' => $this->getRangeArray(1, 31, true)
+            ])
+            ->add('month', ChoiceType::class, [
+                'placeholder' => 'Enter month',
+                'required' => false,
+                'choices' => $this->getRangeArray(1, 12, true)
+            ])
+            ->add('year', ChoiceType::class, [
+                'placeholder' => 'Enter year',
+                'required' => false,
+                'choices' => array_reverse($this->getRangeArray($year - 5, $year), true)
+            ])
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'Redachef' => self::REDACHEF_KEY,
@@ -24,6 +53,7 @@ class ExportFormType extends AbstractType
                 ],
                 'label' => false,
                 'placeholder' => 'Selectionner le type',
+
             ])
             ->add('submit', SubmitType::class,[
                 'label' => "Exporter"
