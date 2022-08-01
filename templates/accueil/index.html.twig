@@ -13,7 +13,7 @@
 				{{ app.user.name }}
 			</div>
 
-			{% if magazine|length == 0 %}
+			{% if no_memberships %}
 				<div class="alert alert-danger" role="alert">
 					* Ce compte n'a pas de titre associé, s'il vous plait contactez l'administrateur.
 				</div>
