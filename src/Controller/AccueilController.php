@@ -4,7 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\Magazine;
-
+use App\Entity\User;
 use App\Repository\MagazineRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
@@ -20,21 +20,33 @@ class AccueilController extends AbstractController
     public function index(MagazineRepository $magazineRepo, Request $request, PaginatorInterface $paginator ,ManagerRegistry $doctrine)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-     
-        $magazine = $doctrine->getRepository(Magazine::class)->findAll();
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        //If connected as admin then can see all the "magazines"
+        if ($isAdmin = $this->isGranted('ROLE_ADMIN')) {
+            $magazines = $doctrine->getRepository(Magazine::class)->findAll();
+        } else {
+            // Else, he would only have access to his own "magazines"
+            $magazines = [];
+
+            foreach ($user->getTitreMemberships() as $membership) {
+                $magazines = array_merge($magazines, $membership->getTitre()->getMagazines()->toArray());
+            }
+        }
 
         if($mots = $request->query->get('mots')){
-            // On recherche les magazines correspondant aux mot clés
-            $magazine = $magazineRepo->search($mots);
+            // Search magazines by the "mots" query variable, giving user as null if it's an admin or itself to filter
+            // by his magazines
+            $magazines = $magazineRepo->search($mots, $isAdmin ? null : $user);
         }
 
         $magazine = $paginator->paginate(
-            $magazine,
+            $magazines,
             $request->query->getInt('page', 1),
             10
         );
-
-        
         
         return $this->render('accueil/index.html.twig', [
             'magazine' => $magazine,
