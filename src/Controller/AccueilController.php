@@ -50,7 +50,8 @@ class AccueilController extends AbstractController
         
         return $this->render('accueil/index.html.twig', [
             'magazine' => $magazine,
-            'mots' => $mots
+            'mots' => $mots,
+            'no_memberships' => $user->getTitreMemberships()->count() === 0
         ]);
     }
     
