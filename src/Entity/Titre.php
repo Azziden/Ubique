@@ -30,9 +30,13 @@ class Titre
     #[ORM\OneToMany(mappedBy: 'titre', targetEntity: Magazine::class)]
     private $magazines;
 
+    #[ORM\OneToMany(mappedBy: 'titre', targetEntity: TitreMembership::class)]
+    private $titreMemberships;
+
     public function __construct()
     {
         $this->magazines = new ArrayCollection();
+        $this->titreMemberships = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -120,5 +124,35 @@ class Titre
     
     public function __toString(): string {
         return "[" . $this->getRacine() . "] " . $this->getTitreDansTableauDirection();
+    }
+
+    /**
+     * @return Collection<int, TitreMembership>
+     */
+    public function getTitreMemberships(): Collection
+    {
+        return $this->titreMemberships;
+    }
+
+    public function addTitreMembership(TitreMembership $titreMembership): self
+    {
+        if (!$this->titreMemberships->contains($titreMembership)) {
+            $this->titreMemberships[] = $titreMembership;
+            $titreMembership->setTitre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTitreMembership(TitreMembership $titreMembership): self
+    {
+        if ($this->titreMemberships->removeElement($titreMembership)) {
+            // set the owning side to null (unless already changed)
+            if ($titreMembership->getTitre() === $this) {
+                $titreMembership->setTitre(null);
+            }
+        }
+
+        return $this;
     }
 }

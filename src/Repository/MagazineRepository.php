@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Magazine;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -23,16 +24,23 @@ class MagazineRepository extends ServiceEntityRepository
 
     /**
      * Recherche les magazines en fonction du formulaire
-     * @return void
      */
-    public function search($mots){
+    public function search($mots, ?User $user){
         $query = $this->createQueryBuilder('m');
         if($mots != null){
             $query->where('m.code_affaire LIKE :mots')
                 ->orWhere('m.code_affaire_en_clair LIKE :mots')
                 ->orderBy('m.id', 'DESC')
                 ->setParameter('mots',  "%" .$mots . "%");
+        }
 
+        if ($user) {
+            $query = $query
+                ->innerJoin('m.titre', 't')
+                ->innerJoin('t.titreMemberships', 'tm')
+                ->innerJoin('tm.user', 'tmu')
+                ->andWhere('tmu.id = :user_id')
+                ->setParameter('user_id', $user->getId());
 
         }
 

@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\PigisteClient;
+use App\Entity\TitreMembership;
 use App\Entity\User;
 use App\Entity\Titre;
 use App\Entity\Magazine;
@@ -64,6 +65,7 @@ class DashboardController extends AbstractDashboardController
 
             MenuItem::section('Utilisateurs'),
             MenuItem::LinkToCrud('Utilisateurs', 'fa fa-user', User::class),
+            MenuItem::LinkToCrud('Titres par utilisateur', 'fa fa-user', TitreMembership::class),
 
         ];
     }

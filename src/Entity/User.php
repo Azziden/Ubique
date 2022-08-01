@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,6 +41,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     private $password;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: TitreMembership::class)]
+    private $titreMemberships;
+
+    public function __construct()
+    {
+        $this->titreMemberships = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -200,5 +210,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->resetToken = $resetToken;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, TitreMembership>
+     */
+    public function getTitreMemberships(): Collection
+    {
+        return $this->titreMemberships;
+    }
+
+    public function addTitreMembership(TitreMembership $titreMembership): self
+    {
+        if (!$this->titreMemberships->contains($titreMembership)) {
+            $this->titreMemberships[] = $titreMembership;
+            $titreMembership->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTitreMembership(TitreMembership $titreMembership): self
+    {
+        if ($this->titreMemberships->removeElement($titreMembership)) {
+            // set the owning side to null (unless already changed)
+            if ($titreMembership->getUser() === $this) {
+                $titreMembership->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName() . ' ' . $this->getUsername() . ' [' . $this->getEmail() . ']';
     }
 }
