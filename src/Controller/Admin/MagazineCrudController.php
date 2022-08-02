@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Magazine;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -28,6 +29,7 @@ class MagazineCrudController extends AbstractCrudController
             // We add all the extra fields here
 
 
+
             // This associated field is only gonna be visible on the forms (edit & new)
             TextField::new("racine")->onlyOnIndex(),
 
@@ -35,6 +37,8 @@ class MagazineCrudController extends AbstractCrudController
 
             // We spread all the default sliced entity fields (+ not working correctly)
             ...$allExceptId,
+
+            IntegerField::new("chiffre_affaire", "Chiffre d'affaire")->onlyOnIndex(),
 
         ];
     }
