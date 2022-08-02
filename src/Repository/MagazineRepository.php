@@ -68,6 +68,16 @@ class MagazineRepository extends ServiceEntityRepository
         }
     }
 
+    public function getForExport()
+    {
+        $query = $this->createQueryBuilder('m')
+            ->select('m.code_affaire, m.code_affaire_en_clair, m.date_de_bouclage, m.date_de_parution, m.titre_en_clair, m.nb_de_page_redactionnelle, m.chiffre_affaire')
+            ->getQuery()
+            ->getResult();
+
+        return $query;
+
+    }
 
 
 //    /**

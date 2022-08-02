@@ -87,4 +87,14 @@ class SalarieEtEntrepriseRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getForExport()
+    {
+        $query = $this->createQueryBuilder('see')
+            ->select('see.nom_d_usage, see.nom_compta, see.statut, see.type , see.droit_auteur, see.abattement_30, see.ratio_brut_commande')
+            ->getQuery()
+            ->getResult();
+
+        return $query;
+
+    }
 }
