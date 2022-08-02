@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Form\ExportFormType;
 use App\Repository\IconographiqueRepository;
+use App\Repository\MagazineRepository;
 use App\Repository\PigisteClientRepository;
 use App\Repository\RedachefRepository;
+use App\Repository\SalarieEtEntrepriseRepository;
 use DateTime;
 use DateTimeZone;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -55,7 +57,7 @@ class ExporterController extends AbstractController
     }
 
     #[Route('/export', name: 'export')]
-    public function exportAction(Request $request, IconographiqueRepository $iconographiqueRepository, RedachefRepository $redachefRepository, PigisteClientRepository $pigisteClientRepository)
+    public function exportAction(Request $request, IconographiqueRepository $iconographiqueRepository, RedachefRepository $redachefRepository, PigisteClientRepository $pigisteClientRepository, MagazineRepository $magazineRepository, SalarieEtEntrepriseRepository $salarieEtEntrepriseRepository )
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -94,6 +96,18 @@ class ExporterController extends AbstractController
                     $repository = $pigisteClientRepository;
                     $name = 'pigiste_client';
                     $columnKeys = ["Code Affaire", "Nom d'usage", "Date de parution", "Article", "signe", "Nb de feuillet", "Forfait", "Prix au feuillet", "Montant", "Montant total brut", "Montant charge"];
+
+                    break;
+                case ExportFormType::MAGAZINE_KEY:
+                    $repository = $magazineRepository;
+                    $name = 'magazine';
+                    $columnKeys = ["Code Affaire", "Code affaire en clair","Date de bouclage", "Date de parution", "Titre en clair", "Nb de page redactionnelle", "Chiffre affaire"];
+
+                    break;
+                case ExportFormType::SALARIEENTREPRISE_KEY:
+                    $repository = $salarieEtEntrepriseRepository;
+                    $name = 'salarie_et_entreprise';
+                    $columnKeys = ["Nom d'usage", "Nom compta", "Statut", "Type", "Droit auteur", "Abattement 30%", "Ratio brut commandé"];
 
                     break;
                 default:

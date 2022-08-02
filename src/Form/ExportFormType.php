@@ -12,6 +12,8 @@ class ExportFormType extends AbstractType
     public const REDACHEF_KEY = 'redachef';
     public const ICONOGRAPHIE_KEY = 'iconographie';
     public const PIGISTE_KEY = 'pigiste_fourni_par_client';
+    public const MAGAZINE_KEY = 'magazine';
+    public const SALARIEENTREPRISE_KEY = 'salarie_et_entreprise';
 
     protected function getRangeArray($start, $end, $padLeft = false): array {
         $arr = [];
@@ -50,6 +52,8 @@ class ExportFormType extends AbstractType
                     'Redachef' => self::REDACHEF_KEY,
                     'Iconographie' => self::ICONOGRAPHIE_KEY ,
                     'Pigiste fourni par client' => self::PIGISTE_KEY,
+                    'Magazine' => self::MAGAZINE_KEY,
+                    'Salarie et entreprise' => self::SALARIEENTREPRISE_KEY,
                 ],
                 'label' => false,
                 'placeholder' => 'Selectionner le type',
