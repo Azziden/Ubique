@@ -38,6 +38,9 @@ class SalarieEtEntreprise
     #[ORM\Column(type: 'string', length: 63, nullable: true)]
     private $abattement_30;
 
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $ratio_brut_commande;
+
     #[ORM\OneToMany(mappedBy: 'salarie_et_entreprise', targetEntity: Redachef::class, cascade:["remove"])]
     private $redachefs;
 
@@ -129,6 +132,18 @@ class SalarieEtEntreprise
     public function setAbattement30(string $abattement_30): self
     {
         $this->abattement_30 = $abattement_30;
+
+        return $this;
+    }
+
+    public function getRatioBrutCommande(): ?float
+    {
+        return $this->ratio_brut_commande;
+    }
+
+    public function setRatioBrutCommande(?float $ratio_brut_commande): self
+    {
+        $this->ratio_brut_commande = $ratio_brut_commande;
 
         return $this;
     }
