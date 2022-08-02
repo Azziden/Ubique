@@ -4,7 +4,6 @@ namespace App\Entity;
 
 
 use App\Entity\Titre;
-
 use App\Entity\Redachef;
 use App\Entity\Iconographique;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,6 +11,7 @@ use App\Repository\MagazineRepository;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+
 
 
 #[ORM\Entity(repositoryClass: MagazineRepository::class)]
@@ -45,6 +45,9 @@ class Magazine
     #[ORM\ManyToOne(targetEntity: Titre::class, inversedBy: 'magazines')]
     #[ORM\JoinColumn(nullable: true)]
     private $titre;
+
+    #[ORM\Column(type: 'float', length: 63, nullable: true)]
+    private $chiffre_affaire;
 
     #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Redachef::class)]
     private $redachefs;
@@ -161,6 +164,18 @@ class Magazine
 
         return $this;
     }
+
+    public function getChiffreAffaire() : ?float
+    {
+        return $this->chiffre_affaire;
+    }
+    public function setChiffreAffaire(?float $chiffre_affaire): self
+    {
+        $this->chiffre_affaire = $chiffre_affaire;
+
+        return $this;
+    }
+
 
     public function getRacine(): ?string {
         return $this->getTitre()?->getRacine();
