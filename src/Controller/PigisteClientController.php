@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Magazine;
 use App\Entity\PigisteClient;
+use App\Form\EditPigisteClientType;
 use App\Repository\SalarieEtEntrepriseRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,6 +41,7 @@ class PigisteClientController extends AbstractController
                 $pigisteClient ->setForfait($item->forfait);
                 $pigisteClient ->setPrixAuFeuillet($item->prix_au_feuillet);
                 $pigisteClient ->setMontant($item->montant);
+                $pigisteClient->setCreatedAt(date_create());
 
                 $entityManager->persist($pigisteClient);
             }
@@ -61,6 +63,30 @@ class PigisteClientController extends AbstractController
         return $this->render('pigiste_client/index.html.twig', [
             'pigiste_client' => $pigisteClient,
             'magazine' => $magazine,
+
+        ]);
+    }
+    #[Route('/magazine/{magazine}/pigiste_client/{pigiste_client}/edit', name: 'app_edit_pigiste_client')]
+    public function edit(Magazine $magazine, PigisteClient $pigisteClient, Request $request, ManagerRegistry $doctrine,): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');//Imposible de voir le site si on est pas connecté
+
+        $form = $this->createForm(EditPigisteClientType::class, $pigisteClient);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $em = $doctrine->getManager();
+            $em->persist($pigisteClient);
+            $em->flush();
+
+            $this->addFlash('success', 'Pigiste enregistrée avec succès');
+
+            return $this->redirectToRoute('app_pigiste_client', ['magazine' => $magazine->getId()]);
+        }
+
+        return $this->render('pigiste_client/edit.html.twig', [
+            'pigisteClient' => $pigisteClient,
+            'form' => $form->createView(),
 
         ]);
     }

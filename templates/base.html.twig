@@ -7,6 +7,9 @@
 			{% block title %}Ubique
 			{% endblock %}
 		</title>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 		<link
 		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
 		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
@@ -38,6 +41,11 @@
 									<a class="nav-link" href="{{ path('export')}}">Exporter les documents
 									</a>
 								</li>
+								<li>
+									<a class="nav-link" href="{{ path('titre')}}">Titres
+									</a>
+								</li>
+
 							{% endif %}
 								<a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter
 								</a>

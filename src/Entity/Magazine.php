@@ -58,6 +58,11 @@ class Magazine
     #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: PigisteClient::class)]
     private $pigisteClients;
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $date_de_parution_set_at;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $date_de_bouclage_set_at;
 
     public function __construct()
     {
@@ -176,7 +181,6 @@ class Magazine
         return $this;
     }
 
-
     public function getRacine(): ?string {
         return $this->getTitre()?->getRacine();
     }
@@ -271,6 +275,31 @@ class Magazine
                 $pigisteClient->setMagazine(null);
             }
         }
+
+        return $this;
+    }
+
+
+    public function getDateDeParutionSetAt(): ?\DateTimeInterface
+    {
+        return $this->date_de_parution_set_at;
+    }
+
+    public function setDateDeParutionSetAt(?\DateTimeInterface $date_de_parution_set_at): self
+    {
+        $this->date_de_parution_set_at = $date_de_parution_set_at;
+
+        return $this;
+    }
+
+    public function getDateDeBouclageSetAt(): ?\DateTimeInterface
+    {
+        return $this->date_de_bouclage_set_at;
+    }
+
+    public function setDateDeBouclageSetAt(?\DateTimeInterface $date_de_bouclage_set_at): self
+    {
+        $this->date_de_bouclage_set_at = $date_de_bouclage_set_at;
 
         return $this;
     }

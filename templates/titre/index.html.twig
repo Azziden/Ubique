@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Titres{% endblock %}
+
+{% block body %}
+    {% include '_partials/_flash.html.twig' %}
+
+    <div class="container accueil-bg m-auto">
+
+        {% if app.user %}
+
+                <form method="get">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Entrez nom du titre ou le nom du client" name="mots" value="{{ mots }}">
+                    </div>
+                    <div class="form-group mt-2">
+                        <button class="btn btn-primary">Rechercher</button>
+                    </div>
+                </form>
+
+                <div class="container">
+                    <h1 class='text-center'>Recherchez le titre</h1>
+                    <table class="table table-striped">
+
+
+                        <thead class="">
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Titre dans tableau direction</th>
+                            <th scope="col">Client</th>
+                            <th scope="col">Racine</th>
+                            <th scope="col">Racine en clair</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for aTitre in titre %}
+                            <tr>
+                                <td>
+                                    {{ aTitre.id }}
+                                </td>
+                                <td>
+                                    {{ aTitre.titreDansTableauDirection }}
+                                </td>
+                                <td>
+                                    {{ aTitre.clients }}
+                                </td>
+                                <td>
+                                    {{ aTitre.racine }}
+                                </td>
+                                <td>
+                                    {{ aTitre.racineEnClair }}
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_choose_titre_details', {'titre': aTitre.id}) }}">
+                                        <button class="btn btn-outline-primary">Choisir</button>
+                                    </a>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {{ knp_pagination_render(titre) }}
+                </div>
+            {% endif %}
+
+    </div>
+{% endblock %}

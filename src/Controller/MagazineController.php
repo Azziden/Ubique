@@ -3,16 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Magazine;
-
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class ChooseMagazineTypeController extends AbstractController
+class MagazineController extends AbstractController
 {
-    #[Route('/magazine/{magazine}', name: 'app_choose_magazine_type')]
+    #[Route('/magazine/{magazine}', name: 'app_magazine')]
     public function index(Magazine $magazine, Request $request, ManagerRegistry $doctrine): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -51,10 +50,10 @@ class ChooseMagazineTypeController extends AbstractController
                 $this->addFlash('danger', "Ce n'est pas possible de modifier la date de bouclage");
             }
         }
-            
+
 
         return $this->render('choose_magazine_type/index.html.twig', [
-            'controller_name' => 'ChooseMagazineTypeController',
+            'controller_name' => 'MagazineController',
             'magazine' => $magazine,
         ]);
     }

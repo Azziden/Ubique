@@ -1,4 +1,3 @@
-
 function addRowMagazine() {
     // Get the table from the document
     const table = document.getElementById('table');
@@ -31,7 +30,7 @@ function addRowMagazine() {
         } else {
             inputCollapsingTo = input;
 
-            if (i == 0) {
+            if (i === 0) {
                 enableAutocomplete(input);
             } else {
                 input.disabled = true;
@@ -39,7 +38,10 @@ function addRowMagazine() {
 
             let cell = row.insertCell(row.cells.length);
 
-            cell.appendChild(input);
+            if (!headCell.getAttribute('data-buttons')) {
+                cell.appendChild(input);
+            }
+
             cell.style.backgroundColor = "#373b3e";
         }
 
@@ -156,7 +158,7 @@ function enableAutocomplete(e) {
                 const key = headCell.getAttribute("data-column");
                 const collapseTo = headCell.getAttribute("data-collapse-to");
 
-                if (selected.hasOwnProperty(key) && collapseTo == filledIdx) {
+                if (selected.hasOwnProperty(key) && parseInt(collapseTo) === filledIdx) {
                     const createdCell = cell.parentElement.insertCell(++cellIdx);
 
                     const input = createInput(headCell);
@@ -168,7 +170,11 @@ function enableAutocomplete(e) {
                     input.value = selected[key];
                     input.placeholder = "";
                 } else {
-                    cell.parentElement.cells[i].children[0].disabled = false;
+                    let childInput = cell.parentElement.cells[i].children[0];
+
+                    if (childInput instanceof HTMLInputElement) {
+                        childInput.disabled = false;
+                    }
                 }
             }
 
@@ -179,6 +185,12 @@ function enableAutocomplete(e) {
         }
     })
 }
+
+/*
+IF FRONTEND Y BACKEND SOBRE LA FECHA DE CREACION
+- AÑADIR CAMPO DE CREACION EN LA TABLA (created_at -> tabla) (date_de_parution_set_at) (date_de_bouclage_set_at)
+- AÑADIR IF Y YASTA :)
+ */
 
 $("#data-form").on('submit', function (e) {
     const newTableData = [];
@@ -271,7 +283,6 @@ function parseInputValue(input, headCell) {
     return null;
 }
 
-function montantCalculator(){
-
-
-}
+document
+    .querySelectorAll('[data-bs-toggle="tooltip"]')
+    .forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
