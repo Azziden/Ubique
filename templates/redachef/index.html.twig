@@ -1,102 +1,117 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{magazine.codeAffaireEnClair}}
+    {{ magazine.codeAffaireEnClair }}
 {% endblock %}
 {% block stylesheets %}
-	<link rel="stylesheet" href="/css/iconographique.css">
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
+    <link rel="stylesheet" href="/css/iconographique.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
 {% endblock %}
 {% block javascripts %}
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-	<script src="{{ asset('javascript/app.js') }}" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="{{ asset('javascript/app.js') }}" defer></script>
 {% endblock %}
 {% block body %}
+    {% include '_partials/_flash.html.twig' %}
 
-	<div class="container accueil-bg m-auto">
+    <div class="container accueil-bg m-auto">
 
-		{% if app.user %}
+        {% if app.user %}
 
-			<div class="mb-3 Magazine">
-				<h3>
-					</a>{{magazine.codeAffaireEnClair}}
-				</h3>
-				<button type="button" class="btn btn-link">
-					<a class="nav-link" href="{{ path('app_choose_magazine_type', {'magazine': magazine.id}) }}">
+            <div class="mb-3 Magazine">
+                <h3>
+                    </a>{{ magazine.codeAffaireEnClair }}
+                </h3>
+                <button type="button" class="btn btn-link">
+                    <a class="nav-link" href="{{ path('app_choose_magazine_type', {'magazine': magazine.id}) }}">
                         « Page précédante
-				    </a>
+                    </a>
                 </button>
-			</div>
-			<div class="col">
-				<div class="col-md-12">
-					<form method="post" class="row">
-						<label for="nb_de_page_redactionnelle" class="col-md-3 col-form-label">Nombre de page redactionnelle</label>
-						<div class="col-md-6">
-							<input class="form-control" type="text" value="{{ magazine.nbDePageRedactionnelle }}" id="nb_de_page_redactionnelle" placeholder="Nombre de page redactionnelle" aria-label="Nombre de page redactionnelle" name="nb_de_page_redactionnelle" required {% if magazine.nbDePageRedactionnelle %} disabled {% endif %}>
-						</div>
-						<div class="col-md-3">
-							<button type="submit" class="btn btn-success w-100" {% if magazine.nbDePageRedactionnelle %} disabled {% endif %}>Enregistrer</button>
-						</div>
-					</form>
-				</div>
-			</div>
-			<hr>
+            </div>
+            <div class="col">
+                <div class="col-md-12">
+                    <form method="post" class="row">
+                        <label for="nb_de_page_redactionnelle" class="col-md-3 col-form-label">Nombre de page
+                            redactionnelle</label>
+                        <div class="col-md-6">
+                            <input class="form-control" type="text" value="{{ magazine.nbDePageRedactionnelle }}"
+                                   id="nb_de_page_redactionnelle" placeholder="Nombre de page redactionnelle"
+                                   aria-label="Nombre de page redactionnelle" name="nb_de_page_redactionnelle"
+                                   required {% if magazine.nbDePageRedactionnelle %} disabled {% endif %}>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit"
+                                    class="btn btn-success w-100" {% if magazine.nbDePageRedactionnelle %} disabled {% endif %}>
+                                Enregistrer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
 
-			<div class="container" style="position: relative; padding: 0">
-				<div class="edit-tooltip" id="edit-tooltip" style="display: none"></div>
-				<h1 class='text-center'>Rédac chef</h1>
-				<input id="autocomplete-url" type="hidden" value="{{ path('app_salarie_et_entreprise_search') }}">
-				<table class="table table-bordered table-dark" id="table">
-					<thead>
-						<tr>
-							<th scope="col" data-column="nom_d_usage">Nom d'usage</th>
-							<th scope="col" data-collapse-to="0" data-column="nom_compta">Nom compta</th>
-							<th scope="col" data-collapse-to="0" data-column="statut">Statut</th>
-							<th scope="col" data-collapse-to="0" data-column="type">Type</th>
-							<th scope="col" data-collapse-to="0" data-column="droit_auteur">Droit d'auteur</th>
-							<th scope="col" data-type="string" data-max-length="63" data-name="article">Article</th>
-							<th scope="col" data-type="int" data-max-length="11" data-name="signe">Signe</th>
-							<th scope="col" data-type="double" data-name="nb_de_feuillet">Nombre de feuillet</th>
-							<th scope="col" data-type="double" data-name="forfait">Forfait</th>
-							<th scope="col" data-type="double" data-name="prix_au_feuillet">Prix au feuillet</th>
-							<th scope="col" data-type="double" data-required="true" data-name="montant">Montant</th>
-
-						</tr>
-					</thead>
-					<tbody>
-						{% for aRedachef in redachef %}
-							<tr>
-								<td>{{ aRedachef.nomDUsage }}</td>
-								<td>{{ aRedachef.nomCompta }}</td>
-								<td>{{ aRedachef.statut }}</td>
-								<td>{{ aRedachef.type }}</td>
-								<td>{{ aRedachef.salarieEtEntreprise.droitAuteur }}</td>
-								<td>{{ aRedachef.article }}</td>
-								<td>{{ aRedachef.signe }}</td>
-								<td>{{ aRedachef.nbDeFeuillet }} </td>
-								<td>{{ aRedachef.forfait }}</td>
-								<td>{{ aRedachef.prixAuFeuillet }}</td>
-								<td>{{ aRedachef.montant }}</td>
-							</tr>
-						{% endfor %}
-						<tr class="text-center add-row" id="add_row">
-							<td colspan="11">
-								<span>+</span>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					<form method="post" id="data-form" action="{{ path('app_redachef', {'magazine': magazine.id}) }}">
-						<input type="hidden" name="data" id="data-input">
-
-						<button class="btn btn-success float-right" type="submit">
-							Enregistrer
-						</button>
-					</form>
-				</div>
-			</div>
-		{% endif %}
-	</div>
+            <div class="container" style="position: relative; padding: 0">
+                <div class="edit-tooltip" id="edit-tooltip" style="display: none"></div>
+                <h1 class='text-center'>Rédac chef</h1>
+                <input id="autocomplete-url" type="hidden" value="{{ path('app_salarie_et_entreprise_search') }}">
+                <table class="table table-bordered table-dark" id="table">
+                    <thead>
+                    <tr>
+                        <th scope="col" data-column="nom_d_usage">Nom d'usage</th>
+                        <th scope="col" data-collapse-to="0" data-column="nom_compta">Nom compta</th>
+                        <th scope="col" data-collapse-to="0" data-column="statut">Statut</th>
+                        <th scope="col" data-collapse-to="0" data-column="type">Type</th>
+                        <th scope="col" data-collapse-to="0" data-column="droit_auteur">Droit d'auteur</th>
+                        <th scope="col" data-type="string" data-max-length="63" data-name="article">Article</th>
+                        <th scope="col" data-type="int" data-max-length="11" data-name="signe">Signe</th>
+                        <th scope="col" data-type="double" data-name="nb_de_feuillet">Nombre de feuillet</th>
+                        <th scope="col" data-type="double" data-name="forfait">Forfait</th>
+                        <th scope="col" data-type="double" data-name="prix_au_feuillet">Prix au feuillet</th>
+                        <th scope="col" data-type="double" data-required="true" data-name="montant">Montant</th>
+                        <th scope="col" data-buttons="true">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for aRedachef in redachef %}
+                        <tr>
+                            <td>{{ aRedachef.nomDUsage }}</td>
+                            <td>{{ aRedachef.nomCompta }}</td>
+                            <td>{{ aRedachef.statut }}</td>
+                            <td>{{ aRedachef.type }}</td>
+                            <td>{{ aRedachef.salarieEtEntreprise.droitAuteur }}</td>
+                            <td>{{ aRedachef.article }}</td>
+                            <td>{{ aRedachef.signe }}</td>
+                            <td>{{ aRedachef.nbDeFeuillet }} </td>
+                            <td>{{ aRedachef.forfait }}</td>
+                            <td>{{ aRedachef.prixAuFeuillet }}</td>
+                            <td>{{ aRedachef.montant }}</td>
+                            <td style="text-align: center">
+                                <a href="{{ path('app_edit_redachef', {'redachef': aRedachef.id, 'magazine': magazine.id}) }}">
+                                    <div class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-title="Éditer">
+                                        <div class="fa fa-pencil"></div>
+                                    </div>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr class="text-center add-row" id="add_row">
+                        <td colspan="12">
+                            <span>+</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <form method="post" id="data-form" action="{{ path('app_redachef', {'magazine': magazine.id}) }}">
+                        <input type="hidden" name="data" id="data-input">
+                        <button class="btn btn-success float-right" type="submit">
+                            Enregistrer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

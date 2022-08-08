@@ -37,6 +37,9 @@ class PigisteClient
     #[ORM\Column(type: 'float', nullable: true)]
     private $montant_charge;
 
+    #[ORM\Column(type: 'datetime')]
+    private $created_at;
+
     #[ORM\ManyToOne(targetEntity: Magazine::class, inversedBy: 'pigisteClients')]
     private $magazine;
 
@@ -140,6 +143,18 @@ class PigisteClient
     public function setMontantCharge(?float $montant_charge): self
     {
         $this->montant_charge = $montant_charge;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }

@@ -27,6 +27,9 @@ class Iconographique
     #[ORM\Column(type: 'float')]
     private $montant;
 
+    #[ORM\Column(type: 'datetime')]
+    private $created_at;
+
     #[ORM\ManyToOne(targetEntity: Magazine::class, inversedBy: 'iconographiques')]
     private $magazine;
 
@@ -82,6 +85,18 @@ class Iconographique
     public function setMontant(float $montant): self
     {
         $this->montant = $montant;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }

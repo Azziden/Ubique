@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Titre;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,6 +39,30 @@ class TitreRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function searchTitre($mots, ?User $user){
+        $query = $this->createQueryBuilder('t');
+        if($mots != null){
+            $query->where('t.titre_dans_tableau_direction LIKE :mots')
+                ->orWhere('t.clients LIKE :mots')
+                ->orderBy('t.id', 'DESC')
+                ->setParameter('mots',  "%" .$mots . "%");
+        }
+
+        if ($user) {
+            $query = $query
+                ->innerJoin('t.titre_dans_tableau_direction', 't')
+                ->innerJoin('t.titreMemberships', 'tm')
+                ->innerJoin('tm.user', 'tmu')
+                ->andWhere('tmu.id = :user_id')
+                ->setParameter('user_id', $user->getId());
+
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+
 
 //    /**
 //     * @return Titre[] Returns an array of Titre objects

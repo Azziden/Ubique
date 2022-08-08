@@ -29,6 +29,10 @@ td .row-input {
     outline: none;
 }
 
+td {
+    vertical-align: middle;
+}
+
 .edit-tooltip {
     position: absolute;
     padding: 15px;
