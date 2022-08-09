@@ -30,12 +30,13 @@
             <div class="col">
                 <div class="col-md-12">
                     <form method="post" class="row">
+                        {% set cannotModifyNbDePageRedactionnelle = magazine.nbDePageRedactionnelleSetAt != null and date().diff(date(magazine.nbDePageRedactionnelleSetAt)).days >= 5 %}
                         <label for="nb_de_page_redactionnelle" class="col-md-3 col-form-label">Nombre de page redactionnelle</label>
                         <div class="col-md-6">
-                            <input class="form-control" type="text" value="{{ magazine.nbDePageRedactionnelle }}" id="nb_de_page_redactionnelle" placeholder="Nombre de page redactionnelle" aria-label="Nombre de page redactionnelle" name="nb_de_page_redactionnelle" required {% if magazine.nbDePageRedactionnelle %} disabled {% endif %}>
+                            <input class="form-control" type="text" value="{{ magazine.nbDePageRedactionnelle }}" id="nb_de_page_redactionnelle" placeholder="Nombre de page redactionnelle" aria-label="Nombre de page redactionnelle" name="nb_de_page_redactionnelle" required {% if cannotModifyNbDePageRedactionnelle %} disabled {% endif %}>
                         </div>
                         <div class="col-md-3">
-                            <button type="submit" class="btn btn-success w-100" {% if magazine.nbDePageRedactionnelle %} disabled {% endif %}>Enregistrer</button>
+                            <button type="submit" class="btn btn-success w-100" {% if cannotModifyNbDePageRedactionnelle %} disabled {% endif %}>Enregistrer</button>
                         </div>
                     </form>
                 </div>

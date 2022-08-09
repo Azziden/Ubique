@@ -58,7 +58,7 @@
 								<td>{{ aIconographique.article }}</td>
 								<td>{{ aIconographique.nbPhoto }}</td>
 								<td>{{ aIconographique.prixPhoto }}</td>
-								<td>{{ aIconographique.montant }}</td>
+								<td>{{ aIconographique.montant|format_currency('EUR') }}</td>
 								<td style="text-align: center">
 									<a href="{{ path('app_edit_iconographique', {'iconographique': aIconographique.id, 'magazine': magazine.id}) }}">
 										<div class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-title="Éditer">

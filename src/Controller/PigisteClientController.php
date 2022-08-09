@@ -54,10 +54,21 @@ class PigisteClientController extends AbstractController
         //Enregistrer Nombre de page redactionnelle a la bdd
         $entityManager = $doctrine->getManager();
 
+        $now = date_create();
         $nbDePageRedactionnelle = $request->get('nb_de_page_redactionnelle');
+
         if ($nbDePageRedactionnelle) {
-            $magazine->setNbDePageRedactionnelle($nbDePageRedactionnelle);
-            $entityManager->flush();
+            if ($magazine->getNbDePageRedactionnelleSetAt() === null || $magazine->getNbDePageRedactionnelleSetAt()->diff($now)->days < 5) {
+                $magazine->setNbDePageRedactionnelle($nbDePageRedactionnelle);
+
+                if ($magazine->getNbDePageRedactionnelleSetAt() === null) {
+                    $magazine->setNbDePageRedactionnelleSetAt($now);
+                }
+
+                $entityManager->flush();
+            } else {
+                $this->addFlash('danger', "Ce n'est pas possible de modifier le nombre de page rédactionnelle");
+            }
         }
 
         return $this->render('pigiste_client/index.html.twig', [

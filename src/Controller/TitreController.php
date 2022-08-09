@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Titre;
+use App\Repository\MagazineRepository;
 use App\Repository\TitreRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
@@ -51,4 +52,35 @@ class TitreController extends AbstractController
             'no_memberships' => $user->getTitreMemberships()->count() === 0
         ]);
     }
+
+    #[Route('/titre/{titre}', name: 'app_choose_titre_details')]
+    public function view(MagazineRepository $magazineRepo, Request $request, PaginatorInterface $paginator, Titre $titre): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        /** @var User $user */
+        $user = $this->getUser();
+        $isAdmin = $this->isGranted('ROLE_ADMIN');
+
+        $magazines = $titre->getMagazines();
+
+        if ($mots = $request->query->get('mots')) {
+            // Search magazines by the "mots" query variable, giving user as null if it's an admin or itself to filter
+            // by his magazines
+            $magazines = $magazineRepo->search($mots, $isAdmin ? null : $user);
+        }
+
+        $magazine = $paginator->paginate(
+            $magazines,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('titre/view.html.twig', [
+            'magazine' => $magazine,
+            'mots' => $mots,
+            'no_memberships' => $user->getTitreMemberships()->count() === 0
+        ]);
+    }
+
 }
