@@ -11,8 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MagazineController extends AbstractController
 {
-    #[Route('/magazine/{magazine}', name: 'app_magazine')]
-    public function index(Magazine $magazine, Request $request, ManagerRegistry $doctrine): Response
+    #[Route('/magazine/{magazine}', name: 'app_choose_magazine_type')]
+    public function view(Magazine $magazine, Request $request, ManagerRegistry $doctrine): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -52,8 +52,8 @@ class MagazineController extends AbstractController
         }
 
 
-        return $this->render('choose_magazine_type/index.html.twig', [
-            'controller_name' => 'MagazineController',
+        return $this->render('magazine/view.html.twig', [
+            'controller_name' => 'ChooseMagazineTypeController',
             'magazine' => $magazine,
         ]);
     }

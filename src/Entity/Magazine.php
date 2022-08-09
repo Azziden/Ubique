@@ -49,6 +49,15 @@ class Magazine
     #[ORM\Column(type: 'float', length: 63, nullable: true)]
     private $chiffre_affaire;
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $date_de_parution_set_at;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $date_de_bouclage_set_at;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $nb_de_page_redactionnelle_set_at;
+
     #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Redachef::class)]
     private $redachefs;
 
@@ -58,11 +67,6 @@ class Magazine
     #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: PigisteClient::class)]
     private $pigisteClients;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $date_de_parution_set_at;
-
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $date_de_bouclage_set_at;
 
     public function __construct()
     {
@@ -304,8 +308,16 @@ class Magazine
         return $this;
     }
 
+    public function getNbDePageRedactionnelleSetAt(): ?\DateTimeInterface
+    {
+        return $this->nb_de_page_redactionnelle_set_at;
+    }
 
+    public  function setNbDePageRedactionnelleSetAt(?\DateTimeInterface $nb_de_page_redactionnelle_set_at): self
+    {
+        $this->nb_de_page_redactionnelle_set_at = $nb_de_page_redactionnelle_set_at;
 
-
+        return $this;
+    }
 
 }

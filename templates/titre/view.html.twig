@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Titre Détails{% endblock %}
+
+{% block body %}
+    <div class="container accueil-bg m-auto">
+
+        {% if app.user %}
+
+            {# <form method="get">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Entrez nom du titre ou le nom du client" name="mots" value="{{ mots }}">
+                </div>
+                <div class="form-group mt-2">
+                    <button class="btn btn-primary">Rechercher</button>
+                </div>
+            </form>#}
+
+            <div class="container">
+                <h1 class='text-center'>Détails</h1>
+                <table class="table table-striped">
+
+
+                    <thead class="">
+                    <tr>
+                        <th scope="col">Magazine en clair</th>
+                        <th scope="col">Code Affaire</th>
+                        <th scope="col">CA</th>
+                        <th scope="col">Charge</th>
+                        <th scope="col">Resultat</th>
+                        <th scope="col">%</th>
+                        <th scope="col">Détails</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set totalCA = 0 %}
+                    {% set totalCharged = 0 %}
+                    {% set totalResult = 0 %}
+                    {% for aMagazine in magazine %}
+                        <tr>
+                            <td>
+                                {{ aMagazine.codeAffaireEnClair }}
+                            </td>
+                            <td>
+                                {{ aMagazine.codeAffaire }}
+                            </td>
+                            <td>
+                                {% set totalCA = totalCA + aMagazine.chiffreAffaire %}
+
+                                {{ aMagazine.chiffreAffaire|format_currency('EUR') }}
+                            </td>
+                            <td>
+                                {% set charged = 0 %}
+                                {% for redachef in aMagazine.redachefs %}
+                                    {% set charged = charged + redachef.montant %}
+                                {% endfor %}
+                                {% for iconographique in aMagazine.iconographiques %}
+                                    {% set charged = charged + iconographique.montant %}
+                                {% endfor %}
+                                {% for pigisteClient in aMagazine.pigisteClients %}
+                                    {% set charged = charged + pigisteClient.montant %}
+                                {% endfor %}
+
+                                {% set totalCharged = totalCharged + charged %}
+
+                                {{ charged|format_currency('EUR') }}
+                            </td>
+                            <td>
+                                {% set result = aMagazine.chiffreAffaire - charged %}
+
+                                {% set totalResult = totalResult + result %}
+
+                                {{ result|format_currency('EUR') }}
+                            </td>
+                            <td>
+                                {% if aMagazine.chiffreAffaire %}
+                                    {{ (result / aMagazine.chiffreAffaire)|format_percent_number({fraction_digit: 2}) }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                               {# <a href="{{ path('app_choose_titre_details', {'titre': aTitre.id}) }}">
+                                </a> #}
+                                <button class="btn btn-outline-primary">Voir détails</button>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                    <tr>
+                        <td colspan="2"><strong>TOTAL</strong></td>
+                        <td><strong>{{ totalCA|format_currency('EUR') }}</strong></td>
+                        <td><strong>{{ totalCharged|format_currency('EUR') }}</strong></td>
+                        <td><strong>{{ totalResult|format_currency('EUR') }}</strong></td>
+                        <td colspan="2"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                {{ knp_pagination_render(magazine) }}
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
