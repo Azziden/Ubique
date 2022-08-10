@@ -29,7 +29,7 @@
             </div>
             <div class="col">
                 <div class="col-md-12">
-                    <form method="post" class="row">
+                    <form method="post" class="row" action="{{ path('app_magazine_set_nb_de_page_redactionnelle', {'magazine': magazine.id, 'origin': 'pigiste'}) }}">
                         {% set cannotModifyNbDePageRedactionnelle = magazine.nbDePageRedactionnelleSetAt != null and date().diff(date(magazine.nbDePageRedactionnelleSetAt)).days >= 5 %}
                         <label for="nb_de_page_redactionnelle" class="col-md-3 col-form-label">Nombre de page redactionnelle</label>
                         <div class="col-md-6">
@@ -80,11 +80,17 @@
                             <td>{{ aPigisteClient.prixAuFeuillet }}</td>
                             <td>{{ aPigisteClient.montant }}</td>
                             <td style="text-align: center">
-                                <a href="{{ path('app_edit_pigiste_client', {'pigiste_client': aPigisteClient.id, 'magazine': magazine.id}) }}">
-                                    <div class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-title="Éditer">
-                                        <div class="fa fa-pencil"></div>
-                                    </div>
-                                </a>
+                                {% if date().diff(date(aPigisteClient.createdAt)).days < 5 %}
+                                    <a href="{{ path('app_edit_pigiste_client', {'pigiste_client': aPigisteClient.id, 'magazine': magazine.id}) }}">
+                                        <button class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-title="Éditer">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-title="Éditer" disabled>
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

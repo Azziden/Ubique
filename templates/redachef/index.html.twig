@@ -32,20 +32,14 @@
             </div>
             <div class="col">
                 <div class="col-md-12">
-                    <form method="post" class="row">
-                        <label for="nb_de_page_redactionnelle" class="col-md-3 col-form-label">Nombre de page
-                            redactionnelle</label>
+                    <form method="post" class="row" action="{{ path('app_magazine_set_nb_de_page_redactionnelle', {'magazine': magazine.id, 'origin': 'redachef'}) }}">
+                        {% set cannotModifyNbDePageRedactionnelle = magazine.nbDePageRedactionnelleSetAt != null and date().diff(date(magazine.nbDePageRedactionnelleSetAt)).days >= 5 %}
+                        <label for="nb_de_page_redactionnelle" class="col-md-3 col-form-label">Nombre de page redactionnelle</label>
                         <div class="col-md-6">
-                            <input class="form-control" type="text" value="{{ magazine.nbDePageRedactionnelle }}"
-                                   id="nb_de_page_redactionnelle" placeholder="Nombre de page redactionnelle"
-                                   aria-label="Nombre de page redactionnelle" name="nb_de_page_redactionnelle"
-                                   required {% if magazine.nbDePageRedactionnelle %} disabled {% endif %}>
+                            <input class="form-control" type="text" value="{{ magazine.nbDePageRedactionnelle }}" id="nb_de_page_redactionnelle" placeholder="Nombre de page redactionnelle" aria-label="Nombre de page redactionnelle" name="nb_de_page_redactionnelle" required {% if cannotModifyNbDePageRedactionnelle %} disabled {% endif %}>
                         </div>
                         <div class="col-md-3">
-                            <button type="submit"
-                                    class="btn btn-success w-100" {% if magazine.nbDePageRedactionnelle %} disabled {% endif %}>
-                                Enregistrer
-                            </button>
+                            <button type="submit" class="btn btn-success w-100" {% if cannotModifyNbDePageRedactionnelle %} disabled {% endif %}>Enregistrer</button>
                         </div>
                     </form>
                 </div>
@@ -86,13 +80,19 @@
                             <td>{{ aRedachef.nbDeFeuillet }} </td>
                             <td>{{ aRedachef.forfait }}</td>
                             <td>{{ aRedachef.prixAuFeuillet }}</td>
-                            <td>{{ aRedachef.montant }}</td>
+                            <td>{{ aRedachef.montant|format_currency('EUR') }}</td>
                             <td style="text-align: center">
-                                <a href="{{ path('app_edit_redachef', {'redachef': aRedachef.id, 'magazine': magazine.id}) }}">
-                                    <div class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-title="Éditer">
-                                        <div class="fa fa-pencil"></div>
-                                    </div>
-                                </a>
+                                {% if date().diff(date(aRedachef.createdAt)).days < 5 %}
+                                    <a href="{{ path('app_edit_redachef', {'redachef': aRedachef.id, 'magazine': magazine.id}) }}">
+                                        <button class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-title="Éditer">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-title="Éditer" disabled>
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PigisteClientController extends AbstractController
 {
     #[Route('magazine/{magazine}/pigisteClient', name: 'app_pigiste_client')]
-    public function index(PigisteClientController $pigisteClient, ManagerRegistry $doctrine, Magazine $magazine, Request $request, SalarieEtEntrepriseRepository $salarieRepo): Response
+    public function index(ManagerRegistry $doctrine, Magazine $magazine, Request $request, SalarieEtEntrepriseRepository $salarieRepo): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');//Imposible de voir le site si on est pas connecté
 
@@ -33,14 +33,14 @@ class PigisteClientController extends AbstractController
                 }
 
                 $pigisteClient = new PigisteClient();
-                $pigisteClient ->setSalarieEtEntreprise($salarie);
-                $pigisteClient ->setMagazine($magazine);
-                $pigisteClient ->setArticle($item->article);
-                $pigisteClient ->setSigne($item->signe);
-                $pigisteClient ->setNbDeFeuillet($item->nb_de_feuillet);
-                $pigisteClient ->setForfait($item->forfait);
-                $pigisteClient ->setPrixAuFeuillet($item->prix_au_feuillet);
-                $pigisteClient ->setMontant($item->montant);
+                $pigisteClient->setSalarieEtEntreprise($salarie);
+                $pigisteClient->setMagazine($magazine);
+                $pigisteClient->setArticle($item->article);
+                $pigisteClient->setSigne($item->signe);
+                $pigisteClient->setNbDeFeuillet($item->nb_de_feuillet);
+                $pigisteClient->setForfait($item->forfait);
+                $pigisteClient->setPrixAuFeuillet($item->prix_au_feuillet);
+                $pigisteClient->setMontant($item->montant);
                 $pigisteClient->setCreatedAt(date_create());
 
                 $entityManager->persist($pigisteClient);
@@ -49,7 +49,7 @@ class PigisteClientController extends AbstractController
             $entityManager->flush();
         }
 
-        $pigisteClient  = $magazine->getpigisteClients();
+        $pigisteClient = $magazine->getpigisteClients();
 
         //Enregistrer Nombre de page redactionnelle a la bdd
         $entityManager = $doctrine->getManager();
@@ -57,7 +57,7 @@ class PigisteClientController extends AbstractController
         $now = date_create();
         $nbDePageRedactionnelle = $request->get('nb_de_page_redactionnelle');
 
-        if ($nbDePageRedactionnelle) {
+        if ($nbDePageRedactionnelle !== null) {
             if ($magazine->getNbDePageRedactionnelleSetAt() === null || $magazine->getNbDePageRedactionnelleSetAt()->diff($now)->days < 5) {
                 $magazine->setNbDePageRedactionnelle($nbDePageRedactionnelle);
 
@@ -74,9 +74,9 @@ class PigisteClientController extends AbstractController
         return $this->render('pigiste_client/index.html.twig', [
             'pigiste_client' => $pigisteClient,
             'magazine' => $magazine,
-
         ]);
     }
+
     #[Route('/magazine/{magazine}/pigiste_client/{pigiste_client}/edit', name: 'app_edit_pigiste_client')]
     public function edit(Magazine $magazine, PigisteClient $pigisteClient, Request $request, ManagerRegistry $doctrine,): Response
     {
@@ -85,12 +85,18 @@ class PigisteClientController extends AbstractController
         $form = $this->createForm(EditPigisteClientType::class, $pigisteClient);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
-            $em = $doctrine->getManager();
-            $em->persist($pigisteClient);
-            $em->flush();
+        $now = date_create();
 
-            $this->addFlash('success', 'Pigiste enregistrée avec succès');
+        if ($form->isSubmitted() && $form->isValid()){
+            if ($pigisteClient->getCreatedAt()->diff($now)->days < 5) {
+                $em = $doctrine->getManager();
+                $em->persist($pigisteClient);
+                $em->flush();
+
+                $this->addFlash('success', 'Pigiste enregistrée avec succès');
+            } else {
+                $this->addFlash('danger', "Ce n'est pas possible de modifier le pigiste client");
+            }
 
             return $this->redirectToRoute('app_pigiste_client', ['magazine' => $magazine->getId()]);
         }
@@ -98,7 +104,6 @@ class PigisteClientController extends AbstractController
         return $this->render('pigiste_client/edit.html.twig', [
             'pigisteClient' => $pigisteClient,
             'form' => $form->createView(),
-
         ]);
     }
 }

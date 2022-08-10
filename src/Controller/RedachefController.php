@@ -53,19 +53,10 @@ class RedachefController extends AbstractController
 
         $redachef = $magazine->getRedachefs();
 
-        //Enregistrer Nombre de page redactionnelle à la bdd
-        $entityManager = $doctrine->getManager();
-
-        $nbDePageRedactionnelle = $request->get('nb_de_page_redactionnelle');
-        if ($nbDePageRedactionnelle) {
-            $magazine->setNbDePageRedactionnelle($nbDePageRedactionnelle);
-            $entityManager->flush();
-        }
 
         return $this->render('redachef/index.html.twig', [
             'redachef' => $redachef,
             'magazine' => $magazine,
-
         ]);
     }
 
@@ -77,12 +68,18 @@ class RedachefController extends AbstractController
         $form = $this->createForm(EditRedachefType::class, $redachef);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
-            $em = $doctrine->getManager();
-            $em->persist($redachef);
-            $em->flush();
+        $now = date_create();
 
-            $this->addFlash('success', 'Redachef enregistrée avec succès');
+        if ($form->isSubmitted() && $form->isValid()){
+            if ($redachef->getCreatedAt()->diff($now)->days < 5) {
+                $em = $doctrine->getManager();
+                $em->persist($redachef);
+                $em->flush();
+
+                $this->addFlash('success', 'Redachef enregistrée avec succès');
+            } else {
+                $this->addFlash('danger', "Ce n'est pas possible de modifier le redachef");
+            }
 
             return $this->redirectToRoute('app_redachef', ['magazine' => $magazine->getId()]);
         }

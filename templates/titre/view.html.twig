@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Titre Détails{% endblock %}
+{% block title %}{{ titre.titreDansTableauDirection }}{% endblock %}
 
 {% block body %}
     <div class="container accueil-bg m-auto">
@@ -80,9 +80,10 @@
                                 {% endif %}
                             </td>
                             <td>
-                               {# <a href="{{ path('app_choose_titre_details', {'titre': aTitre.id}) }}">
-                                </a> #}
+                               <a href="{{ path('app_view_details_by_magazine', {'titre': titre.id, 'magazine': aMagazine.id}) }}">
+
                                 <button class="btn btn-outline-primary">Voir détails</button>
+                               </a>
                             </td>
                         </tr>
 

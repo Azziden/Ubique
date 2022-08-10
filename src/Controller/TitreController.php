@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Magazine;
+use App\Entity\SalarieEtEntreprise;
 use App\Entity\User;
 use App\Entity\Titre;
 use App\Repository\MagazineRepository;
@@ -78,7 +80,61 @@ class TitreController extends AbstractController
 
         return $this->render('titre/view.html.twig', [
             'magazine' => $magazine,
+            'titre' => $titre,
             'mots' => $mots,
+            'no_memberships' => $user->getTitreMemberships()->count() === 0
+        ]);
+    }
+    #[Route('/titre/{titre}/magazine/{magazine}/detail', name: 'app_view_details_by_magazine')]
+    public function detailByMagazine(Titre $titre, Magazine $magazine): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $salarieEtEntreprises = [];
+
+        foreach ($magazine->getRedachefs() as $redachef) {
+            if (isset($salarieEtEntreprises[$redachef->getId()])) {
+                $salarieEtEntreprises[$redachef->getSalarieEtEntreprise()->getId()]->total += $redachef->getMontant();
+            } else {
+                $salarieEtEntreprises[$redachef->getSalarieEtEntreprise()->getId()] = (object)[
+                    'nom_d_usage' => $redachef->getNomDUsage(),
+                    'statut' => $redachef->getStatut(),
+                    'total' => $redachef->getMontant()
+                ];
+            }
+        }
+
+        foreach ($magazine->getIconographiques() as $iconographique) {
+            if (isset($salarieEtEntreprises[$iconographique->getId()])) {
+                $salarieEtEntreprises[$iconographique->getSalarieEtEntreprise()->getId()]->total += $iconographique->getMontant();
+            } else {
+                $salarieEtEntreprises[$iconographique->getSalarieEtEntreprise()->getId()] = (object)[
+                    'nom_d_usage' => $iconographique->getNomDUsage(),
+                    'statut' => $iconographique->getStatut(),
+                    'total' => $iconographique->getMontant()
+                ];
+            }
+        }
+
+        foreach ($magazine->getPigisteClients() as $pigisteClient) {
+            if (isset($salarieEtEntreprises[$pigisteClient->getId()])) {
+                $salarieEtEntreprises[$pigisteClient->getSalarieEtEntreprise()->getId()]->total += $pigisteClient->getMontant();
+            } else {
+                $salarieEtEntreprises[$pigisteClient->getSalarieEtEntreprise()->getId()] = (object)[
+                    'nom_d_usage' => $pigisteClient->getNomDUsage(),
+                    'statut' => $pigisteClient->getStatut(),
+                    'total' => $pigisteClient->getMontant()
+                ];
+            }
+        }
+
+        return $this->render('titre/detail_view.html.twig', [
+            'magazine' => $magazine,
+            'titre' => $titre,
+            'salarie_et_entreprises' => $salarieEtEntreprises,
             'no_memberships' => $user->getTitreMemberships()->count() === 0
         ]);
     }
