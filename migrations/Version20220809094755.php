@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220809095132 extends AbstractMigration
+final class Version20220809094755 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,7 @@ final class Version20220809095132 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE magazine CHANGE nb_de_page_redactionnelle_set_at nb_de_page_redactionnelle_set_at DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE magazine CHANGE nb_de_page_redactionnelle_set_at nb_de_page_redactionnelle_set_at DATETIME DEFAULT NULL DEFAULT NOW()');
     }
 
     public function down(Schema $schema): void
