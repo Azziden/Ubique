@@ -7,6 +7,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MagazineController extends AbstractController
@@ -56,5 +57,43 @@ class MagazineController extends AbstractController
             'controller_name' => 'ChooseMagazineTypeController',
             'magazine' => $magazine,
         ]);
+    }
+
+    #[Route('/magazine/{magazine}/set_nb_de_page_redactionnelle', name: 'app_magazine_set_nb_de_page_redactionnelle')]
+    public function setNbDePageRedactionnelle(ManagerRegistry $doctrine, Magazine $magazine, Request $request): Response
+    {
+        $pigisteClient = $magazine->getpigisteClients();
+
+        //Enregistrer Nombre de page redactionnelle a la bdd
+        $entityManager = $doctrine->getManager();
+
+        $now = date_create();
+        $nbDePageRedactionnelle = $request->get('nb_de_page_redactionnelle');
+
+        if ($nbDePageRedactionnelle !== null) {
+            if ($magazine->getNbDePageRedactionnelleSetAt() === null || $magazine->getNbDePageRedactionnelleSetAt()->diff($now)->days < 5) {
+                $magazine->setNbDePageRedactionnelle($nbDePageRedactionnelle);
+
+                if ($magazine->getNbDePageRedactionnelleSetAt() === null) {
+                    $magazine->setNbDePageRedactionnelleSetAt($now);
+                }
+
+                $entityManager->flush();
+            } else {
+                $this->addFlash('danger', "Ce n'est pas possible de modifier le nombre de page rédactionnelle");
+            }
+        } else {
+            throw new BadRequestHttpException();
+        }
+
+        $this->addFlash('success', "Nombre de page rédactionnelle envoyé avec succès");
+
+        $route = 'app_pigiste_client';
+
+        if ($request->get('origin') === 'redachef') {
+            $route = 'app_redachef';
+        }
+
+        return $this->redirectToRoute($route, ['magazine' => $magazine->getId()]);
     }
 }
